@@ -23,6 +23,7 @@ export const ProductItem: React.FC<IProductItemProps> = (props) => {
         <Card className={classes.card}>
             <CardActionArea>
                 <CardMedia
+                    
                     component="img"
                     alt="Image of product"
                     height="160"
@@ -41,7 +42,7 @@ export const ProductItem: React.FC<IProductItemProps> = (props) => {
             </CardActionArea>
             <CardActions>
                 <Button size="small" color="primary">
-                    Share
+                    hello
                 </Button>
                 <IconButton
                     onClick={() => null}
