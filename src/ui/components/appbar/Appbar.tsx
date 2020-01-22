@@ -1,13 +1,10 @@
 import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
+import { useStringLocalizer } from "../../../localization";
+import { AppBar, Toolbar, IconButton, Typography, Menu, MenuItem } from "@material-ui/core";
+import { AccountCircle, Menu as MenuIcon } from "@material-ui/icons";
+import { SupportedLanguages } from "../../../localization/Localization";
+import { useSetLanguage } from "../../../localization/StringLocalizer";
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -31,6 +28,9 @@ export const Appbar: React.FC<IAppbarProps> = (props) => {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 
+	const localizer = useStringLocalizer();
+	const setLanguage = useSetLanguage();
+
 	const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
 	};
@@ -48,12 +48,13 @@ export const Appbar: React.FC<IAppbarProps> = (props) => {
 						className={classes.menuButton}
 						color="inherit"
 						aria-label="menu"
+						onClick={() => setLanguage(SupportedLanguages.ptBR)}
 					>
 						<MenuIcon />
 					</IconButton>
 					<Typography variant="h6" className={classes.title}>
-						AmazingShop
-          			</Typography>
+						AmazingShop ! {localizer.get("name")}
+					</Typography>
 					{auth && (
 						<div>
 							<IconButton
