@@ -2,8 +2,8 @@ import { useStringLocalizer, useSetLanguage, StringLocalizerProvider } from './S
 import { SupportedLanguages } from './Localization'
 
 export {
-  useStringLocalizer,
-  useSetLanguage,
-  StringLocalizerProvider,
-  SupportedLanguages
+    useStringLocalizer,
+    useSetLanguage,
+    StringLocalizerProvider,
+    SupportedLanguages
 }

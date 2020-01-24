@@ -4,128 +4,130 @@ import { Container, Grid, TextField, makeStyles, Button } from '@material-ui/cor
 import { Save } from '@material-ui/icons';
 import { Product } from '../../../domain';
 import { blankImage } from '../../../static/images';
+import { useStringLocalizer } from '../../../localization';
 
 interface IAddProductProps {
 }
 
 const useStyles = makeStyles({
-	container: {
-		display: "flex",
-		justifyContent: "center"
-	},
-	form: {
-		display: "flex",
-		flexDirection: "column",
-		alignItems: "center",
-		justifyContent: "center"
-	},
-	input: {
-		padding: 10
-	},
-	button: {
-		margin: 5,
-	},
+    container: {
+        display: "flex",
+        justifyContent: "center"
+    },
+    form: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    input: {
+        padding: 10
+    },
+    button: {
+        margin: 5,
+    },
 });
 
 const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => {
 
-	const validatePriceInput = (val: string) => val.length === 0 || (!!val && !isNaN(+val) && isFinite(+val));
-	const [name, setName] = React.useState("");
-	const [description, setDescription] = React.useState("");
-	const [imageUrl, setImageUrl] = React.useState(blankImage);
-	const [price, setPrice] = React.useState("");
+    const validatePriceInput = (val: string) => val.length === 0 || (!!val && !isNaN(+val) && isFinite(+val));
+    const [name, setName] = React.useState("");
+    const [description, setDescription] = React.useState("");
+    const [imageUrl, setImageUrl] = React.useState(blankImage);
+    const [price, setPrice] = React.useState("");
 
-	const createPreview = () => new Product({
-		id: 0,
-		name: name,
-		description: description,
-		imageUrl: imageUrl,
-		price: validatePriceInput(price) ? +price : 0
-	});
+    const createPreview = () => new Product({
+        id: 0,
+        name: name,
+        description: description,
+        imageUrl: imageUrl,
+        price: validatePriceInput(price) ? +price : 0
+    });
 
-	const [previewProduct, setPreview] = React.useState(createPreview());
+    const [previewProduct, setPreview] = React.useState(createPreview());
 
-	const validateForm = () => !!name && !!description && !!imageUrl && validatePriceInput(price);
+    const validateForm = () => !!name && !!description && !!imageUrl && validatePriceInput(price);
 
-	const classes = useStyles();
+    const classes = useStyles();
+    const localizer = useStringLocalizer();
 
-	return (
-		<>
-			<Appbar />
+    return (
+        <>
+            <Appbar />
 
-			<Container className={classes.container}>
-				<Grid container direction="column" justify="center" alignItems="center">
+            <Container className={classes.container}>
+                <Grid container direction="column" justify="center" alignItems="center">
 
-					<h1>
-						Adding a new product
-					</h1>
+                    <h1>
+                        {localizer.get("addNewProduct")}
+                    </h1>
 
-					<form className={classes.form}>
-						<TextField
-							className={classes.input}
-							label="Name"
-							variant="outlined"
-							id="name"
-							value={name}
-							onChange={(event) => setName(event.target.value)}
-							onBlur={() => setPreview(createPreview())}
-						/>
-						<TextField
-							className={classes.input}
-							label="Description"
-							variant="outlined"
-							id="description"
-							value={description}
-							onChange={(event) => setDescription(event.target.value)}
-							onBlur={() => setPreview(createPreview())}
-						/>
-						<TextField
-							className={classes.input}
-							label="Price"
-							variant="outlined"
-							id="price"
-							value={price}
-							error={!validatePriceInput(price)}
-							helperText={!validatePriceInput(price) ? "Must be a number" : undefined}
-							onChange={(event) => setPrice(event.target.value)}
-							onBlur={() => setPreview(createPreview())}
-						/>
-						<TextField
-							className={classes.input}
-							label="Image URL"
-							variant="outlined"
-							id="imageUrl"
-							value={imageUrl}
-							onChange={(event) => setImageUrl(event.target.value)}
-							onBlur={() => setPreview(createPreview())}
-						/>
-					</form>
-				</Grid>
-				<Grid container direction="column" justify="center" alignItems="center">
-					<h1> Preview </h1>
-					<div>
-						<ProductItem
-							product={previewProduct}
-						/>
-					</div>
-				</Grid>
-			</Container>
+                    <form className={classes.form}>
+                        <TextField
+                            className={classes.input}
+                            label={localizer.get("name")}
+                            variant="outlined"
+                            id="name"
+                            value={name}
+                            onChange={(event) => setName(event.target.value)}
+                            onBlur={() => setPreview(createPreview())}
+                        />
+                        <TextField
+                            className={classes.input}
+                            label={localizer.get("description")}
+                            variant="outlined"
+                            id="description"
+                            value={description}
+                            onChange={(event) => setDescription(event.target.value)}
+                            onBlur={() => setPreview(createPreview())}
+                        />
+                        <TextField
+                            className={classes.input}
+                            label={localizer.get("price")}
+                            variant="outlined"
+                            id="price"
+                            value={price}
+                            error={!validatePriceInput(price)}
+                            helperText={!validatePriceInput(price) ? "Must be a number" : undefined}
+                            onChange={(event) => setPrice(event.target.value)}
+                            onBlur={() => setPreview(createPreview())}
+                        />
+                        <TextField
+                            className={classes.input}
+                            label={localizer.get("imageUrl")}
+                            variant="outlined"
+                            id="imageUrl"
+                            value={imageUrl}
+                            onChange={(event) => setImageUrl(event.target.value)}
+                            onBlur={() => setPreview(createPreview())}
+                        />
+                    </form>
+                </Grid>
+                <Grid container direction="column" justify="center" alignItems="center">
+                    <h1> {localizer.get("preview")} </h1>
+                    <div>
+                        <ProductItem
+                            product={previewProduct}
+                        />
+                    </div>
+                </Grid>
+            </Container>
 
-			<Container className={classes.container} maxWidth="xs">
-				<Button
-					variant="outlined"
-					color="primary"
-					size="large"
-					className={classes.button}
-					disabled={validateForm()}
-					startIcon={<Save />}
-				>
-					Save
-				</Button>
-			</Container>
+            <Container className={classes.container} maxWidth="xs">
+                <Button
+                    variant="outlined"
+                    color="primary"
+                    size="large"
+                    className={classes.button}
+                    disabled={validateForm()}
+                    startIcon={<Save />}
+                >
+                    {localizer.get("save")}
+                </Button>
+            </Container>
 
-		</>
-	);
+        </>
+    );
 };
 
 export default AddProduct;

@@ -3,7 +3,7 @@ import { Appbar } from '../../components';
 import { Container, Grid } from '@material-ui/core';
 import { ProductItem } from '../../components/productItem/ProductItem';
 import { Product } from '../../../domain';
-import { productsReducerInitialState, productsReducer } from '../../../reducers/products/productsReducer';
+import { useProductStore, ProductActions } from '../../../stores/';
 
 interface IDashboardProps {
 
@@ -11,15 +11,20 @@ interface IDashboardProps {
 
 const Dashboard: React.FC<IDashboardProps> = (props) => {
 
-    const [state, dispatch] = React.useReducer(productsReducer, productsReducerInitialState);
+    const [productStore, productDispatch] = useProductStore()
+    React.useEffect(() => {
+        const getProducts = async () => await productDispatch({ type: ProductActions.GetAll })
+        getProducts()
+    }, [])
 
-    const renderItems = (items: Product[])=> items?.map(
-        p => 
-        <Grid item >
-            <ProductItem
-                product={p}
-            />
-        </Grid>);
+    const renderItems = (items: Product[]) => items?.map(
+        (p, i) =>
+            <Grid item >
+                <ProductItem
+                    product={p}
+                    key={i}
+                />
+            </Grid>);
 
     return (
         <>
@@ -34,7 +39,7 @@ const Dashboard: React.FC<IDashboardProps> = (props) => {
                     alignItems="center"
                 >
                     {
-                        renderItems(state.products)
+                        renderItems(productStore.products)
                     }
                 </Grid>
             </Container>
