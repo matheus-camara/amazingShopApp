@@ -34,5 +34,21 @@ export const resources = {
     cart: {
         en_US: "Cart",
         pt_BR: "Carrinho"
+    },
+    notFound: {
+        en_US: "Register Not Found",
+        pt_BR: "Registro não encontrado"
+    },
+    unAuthorized: {
+        en_US: "Unauthorized",
+        pt_BR: "Não autorizado"
+    },
+    mustBeANumber: {
+        en_US: "Must be a Number",
+        pt_BR: "Deve conter apenas números"
+    },
+    noContent: {
+        en_US: "No content available",
+        pt_BR: "Sem conteúdo disponível"
     }
 }

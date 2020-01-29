@@ -7,7 +7,7 @@ import { useStringLocalizer } from '../../../localization';
 
 const useStyles = makeStyles({
     card: {
-        maxWidth: 200,
+        maxWidth: 260,
         margin: 10,
         marginTop: 15
     },

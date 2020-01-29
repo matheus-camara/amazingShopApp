@@ -4,6 +4,7 @@ import { Container, Grid } from '@material-ui/core';
 import { ProductItem } from '../../components/productItem/ProductItem';
 import { Product } from '../../../domain';
 import { useProductStore, ProductActions } from '../../../stores/';
+import { useStringLocalizer } from '../../../localization';
 
 interface IDashboardProps {
 
@@ -12,19 +13,22 @@ interface IDashboardProps {
 const Dashboard: React.FC<IDashboardProps> = (props) => {
 
     const [productStore, productDispatch] = useProductStore()
+
     React.useEffect(() => {
         const getProducts = async () => await productDispatch({ type: ProductActions.GetAll })
         getProducts()
     }, [])
 
-    const renderItems = (items: Product[]) => items?.map(
+    const localizer = useStringLocalizer();
+
+    const renderItems = (items: Product[]) => items.length ? items?.map(
         (p, i) =>
             <Grid item >
                 <ProductItem
                     product={p}
                     key={i}
                 />
-            </Grid>);
+            </Grid>) : <div> {localizer.get("noContent")} </div>;
 
     return (
         <>

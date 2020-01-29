@@ -17,6 +17,10 @@ export const ProductSaga = async (action: Action<Product | Product[]>, dispatch:
             dispatch(action)
             break;
 
+        case ProductActions.Add:
+            await webService.save(action.payload);
+            break;
+
         default:
             dispatch(action)
             break;

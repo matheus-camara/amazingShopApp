@@ -1,5 +1,7 @@
-import { Product } from './product/Product'
+import { Product } from "./product/Product"
+import { Notification } from "./notification/Notification"
 
 export {
-    Product
+    Product,
+    Notification
 }

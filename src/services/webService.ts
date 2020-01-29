@@ -31,7 +31,7 @@ class WebService {
     }
 
     async save<T>(entity: T) {
-        const { data } = await axios.post(this._baseUrl, this._createHeader())
+        const { data } = await axios.post(this._baseUrl, entity, this._createHeader())
         return data
     }
 }

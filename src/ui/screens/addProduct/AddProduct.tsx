@@ -1,10 +1,11 @@
-import * as React from 'react';
+import * as React from 'react'
 import { Appbar, ProductItem } from '../../components';
-import { Container, Grid, TextField, makeStyles, Button } from '@material-ui/core';
-import { Save } from '@material-ui/icons';
-import { Product } from '../../../domain';
-import { blankImage } from '../../../static/images';
-import { useStringLocalizer } from '../../../localization';
+import { Container, Grid, TextField, makeStyles, Button } from '@material-ui/core'
+import { Save } from '@material-ui/icons'
+import { Product } from '../../../domain'
+import { blankImage } from '../../../static/images'
+import { useStringLocalizer } from '../../../localization'
+import { useProductStore, ProductActions } from '../../../stores'
 
 interface IAddProductProps {
 }
@@ -26,37 +27,37 @@ const useStyles = makeStyles({
     button: {
         margin: 5,
     },
-});
+})
 
 const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => {
 
-    const validatePriceInput = (val: string) => val.length === 0 || (!!val && !isNaN(+val) && isFinite(+val));
-    const [name, setName] = React.useState("");
-    const [description, setDescription] = React.useState("");
-    const [imageUrl, setImageUrl] = React.useState(blankImage);
-    const [price, setPrice] = React.useState("");
+    const [name, setName] = React.useState("")
+    const [description, setDescription] = React.useState("")
+    const [imageUrl, setImageUrl] = React.useState(blankImage)
+    const [price, setPrice] = React.useState("")
 
-    const createPreview = () => new Product({
+    const validatePriceInput = (val: string) => val?.length === 0 || (!!val && !isNaN(+val) && isFinite(+val))
+    const validateForm = () => !!name && !!description && !!imageUrl && validatePriceInput(price);
+    const createProduct = () => new Product({
         id: 0,
         name: name,
         description: description,
         imageUrl: imageUrl,
         price: validatePriceInput(price) ? +price : 0
-    });
+    })
 
-    const [previewProduct, setPreview] = React.useState(createPreview());
+    const [previewProduct, setPreview] = React.useState(createProduct())
 
-    const validateForm = () => !!name && !!description && !!imageUrl && validatePriceInput(price);
-
-    const classes = useStyles();
-    const localizer = useStringLocalizer();
+    const classes = useStyles()
+    const localizer = useStringLocalizer()
+    const [, dispatch] = useProductStore()
 
     return (
         <>
             <Appbar />
 
             <Container className={classes.container}>
-                <Grid container direction="column" justify="center" alignItems="center">
+                <Grid container direction="column" alignItems="center">
 
                     <h1>
                         {localizer.get("addNewProduct")}
@@ -70,7 +71,7 @@ const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => {
                             id="name"
                             value={name}
                             onChange={(event) => setName(event.target.value)}
-                            onBlur={() => setPreview(createPreview())}
+                            onBlur={() => setPreview(createProduct())}
                         />
                         <TextField
                             className={classes.input}
@@ -79,7 +80,7 @@ const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => {
                             id="description"
                             value={description}
                             onChange={(event) => setDescription(event.target.value)}
-                            onBlur={() => setPreview(createPreview())}
+                            onBlur={() => setPreview(createProduct())}
                         />
                         <TextField
                             className={classes.input}
@@ -88,9 +89,9 @@ const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => {
                             id="price"
                             value={price}
                             error={!validatePriceInput(price)}
-                            helperText={!validatePriceInput(price) ? "Must be a number" : undefined}
+                            helperText={!validatePriceInput(price) ? localizer.get("mustBeANumber") : undefined}
                             onChange={(event) => setPrice(event.target.value)}
-                            onBlur={() => setPreview(createPreview())}
+                            onBlur={() => setPreview(createProduct())}
                         />
                         <TextField
                             className={classes.input}
@@ -99,7 +100,7 @@ const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => {
                             id="imageUrl"
                             value={imageUrl}
                             onChange={(event) => setImageUrl(event.target.value)}
-                            onBlur={() => setPreview(createPreview())}
+                            onBlur={() => setPreview(createProduct())}
                         />
                     </form>
                 </Grid>
@@ -119,8 +120,9 @@ const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => {
                     color="primary"
                     size="large"
                     className={classes.button}
-                    disabled={validateForm()}
+                    //disabled={!validateForm()}
                     startIcon={<Save />}
+                    onClick={() => dispatch({ type: ProductActions.Add, payload: createProduct() })}
                 >
                     {localizer.get("save")}
                 </Button>
@@ -130,4 +132,4 @@ const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => {
     );
 };
 
-export default AddProduct;
+export default AddProduct
