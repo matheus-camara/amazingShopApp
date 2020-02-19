@@ -37,6 +37,7 @@ const StringLocalizerContext = React.createContext<IStringLocalizer | null>(null
 const LanguageContext = React.createContext<((language: SupportedLanguages) => void) | null>(null);
 
 export const StringLocalizerProvider = ({ children, resources, defaultLanguage }: { children: any, resources: LocalizedSet, defaultLanguage: SupportedLanguages }) => {
+
     const [selectedLanguage, setSelectedLanguage] = React.useState(defaultLanguage);
     const localizer = () => new StringLocalizer(selectedLanguage, resources);
 

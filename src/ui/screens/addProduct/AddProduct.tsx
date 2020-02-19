@@ -120,9 +120,9 @@ const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => {
                     color="primary"
                     size="large"
                     className={classes.button}
-                    //disabled={!validateForm()}
+                    disabled={!validateForm()}
                     startIcon={<Save />}
-                    onClick={() => dispatch({ type: ProductActions.Add, payload: createProduct() })}
+                    onClick={() => null}
                 >
                     {localizer.get("save")}
                 </Button>

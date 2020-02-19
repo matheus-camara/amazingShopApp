@@ -5,20 +5,22 @@ import { AddShoppingCart } from '@material-ui/icons'
 import { Product } from '../../../domain';
 import { useStringLocalizer } from '../../../localization';
 
-const useStyles = makeStyles({
+const useStyles = (width: number) => makeStyles({
     card: {
-        maxWidth: 260,
+        maxWidth: width,
         margin: 10,
         marginTop: 15
     },
-});
+})();
 
 interface IProductItemProps {
     product: Product
 }
 
 export const ProductItem: React.FC<IProductItemProps> = (props) => {
-    const classes = useStyles();
+    const [height, maxWidth] = [160, 260]
+
+    const classes = useStyles(maxWidth);
     const localizer = useStringLocalizer();
 
     return (
@@ -27,7 +29,7 @@ export const ProductItem: React.FC<IProductItemProps> = (props) => {
                 <CardMedia
                     component="img"
                     alt="Image of product"
-                    height="160"
+                    height={height}
                     image={props.product.imageUrl}
                     title="product image"
                 />

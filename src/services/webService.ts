@@ -18,10 +18,8 @@ class WebService {
         }
     }
 
-    async getPaged<T>(page = 0) {
-        const take = 20
-        const skip = page * take
-        const { data } = await axios.get<T[]>(`${this._baseUrl}/${skip}/${take}`, this._createHeader())
+    async getPaged<T>(skip = 0, take = 0) {
+        const { data } = await axios.get<{ result: T[], total: number }>(`${this._baseUrl}/${skip}/${take}`, this._createHeader())
         return data
     }
 
@@ -35,6 +33,5 @@ class WebService {
         return data
     }
 }
-
 
 export const useWebService = (baseUrl: string, token: string) => new WebService({ baseUrl, token });

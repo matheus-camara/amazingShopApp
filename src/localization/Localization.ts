@@ -1,11 +1,13 @@
 export enum SupportedLanguages {
-    ptBR = "pt-BR",
-    enUS = "en-US"
+    ptBR = "ptBR",
+    enUS = "enUS"
 }
 
 export interface LocalizedString {
-    en_US: string,
-    pt_BR: string
+    ptBR: string,
+    enUS: string,
+
+    [key: string]: string
 }
 
 export interface LocalizedSet {

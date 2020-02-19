@@ -1,54 +1,64 @@
-export const resources = {
+import { LocalizedSet } from "../localization/Localization";
+
+export const resources: LocalizedSet = {
     name: {
-        en_US: "Name",
-        pt_BR: "Nome"
+        enUS: "Name",
+        ptBR: "Nome"
     },
     description: {
-        en_US: "Description",
-        pt_BR: "Descrição"
+        enUS: "Description",
+        ptBR: "Descrição"
     },
     price: {
-        en_US: "Price",
-        pt_BR: "Preço"
+        enUS: "Price",
+        ptBR: "Preço"
     },
     imageUrl: {
-        en_US: "Image URL",
-        pt_BR: "URL da imagem"
+        enUS: "Image URL",
+        ptBR: "URL da imagem"
     },
     preview: {
-        en_US: "Preview",
-        pt_BR: "Pré-visualização"
+        enUS: "Preview",
+        ptBR: "Pré-visualização"
     },
     save: {
-        en_US: "Save",
-        pt_BR: "Salvar"
+        enUS: "Save",
+        ptBR: "Salvar"
     },
     addNewProduct: {
-        en_US: "Adding a new product",
-        pt_BR: "Adicionando um novo produto"
+        enUS: "Adding a new product",
+        ptBR: "Adicionando um novo produto"
     },
     profile: {
-        en_US: "Profile",
-        pt_BR: "Perfil"
+        enUS: "Profile",
+        ptBR: "Perfil"
     },
     cart: {
-        en_US: "Cart",
-        pt_BR: "Carrinho"
+        enUS: "Cart",
+        ptBR: "Carrinho"
     },
     notFound: {
-        en_US: "Register Not Found",
-        pt_BR: "Registro não encontrado"
+        enUS: "Register Not Found",
+        ptBR: "Registro não encontrado"
     },
     unAuthorized: {
-        en_US: "Unauthorized",
-        pt_BR: "Não autorizado"
+        enUS: "Unauthorized",
+        ptBR: "Não autorizado"
     },
     mustBeANumber: {
-        en_US: "Must be a Number",
-        pt_BR: "Deve conter apenas números"
+        enUS: "Must be a Number",
+        ptBR: "Deve conter apenas números"
     },
     noContent: {
-        en_US: "No content available",
-        pt_BR: "Sem conteúdo disponível"
+        enUS: "No content available",
+        ptBR: "Sem conteúdo disponível"
+    },
+    created: {
+        enUS: "Sucess!",
+        ptBR: "Criado com sucesso!"
+    },
+    serverUnavailable: {
+        enUS: "Server Unreachable",
+        ptBR: "Impossível comunicar com o servidor"
     }
 }

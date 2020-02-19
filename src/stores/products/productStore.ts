@@ -1,22 +1,25 @@
 import React from "react"
 import { Product } from "../../domain"
-import { Action } from "../action"
+import { Action, PagedAction } from "../action"
 import { ProductActions } from "./productActions"
-import { ProductSaga } from "./productSagas"
 
 interface IProductStoreState {
-    products: Product[]
+    products: Product[],
+    total: number
 }
 
 const ProductStoreState: IProductStoreState = {
-    products: []
+    products: [],
+    total: 0
 }
 
-const ProductStore = (state: IProductStoreState, action: Action<Product | Product[]>) => {
+const ProductStore = (state: IProductStoreState, action: PagedAction<Product | Product[]> | Action<Product | Product[]>) => {
     switch (action.type) {
         case ProductActions.GetAll:
+            const pagedAction = action as PagedAction<Product | Product[]>
             return Object.assign({}, state, {
-                products: action.payload
+                products: pagedAction.payload,
+                total: pagedAction.total
             })
 
         case ProductActions.Get:
@@ -32,8 +35,7 @@ const ProductStore = (state: IProductStoreState, action: Action<Product | Produc
     }
 }
 
-export const useProductStore = (): [IProductStoreState, (action: Action<Product | Product[]>) => Promise<void>] => {
+export const useProductStore = (): [IProductStoreState, React.Dispatch<PagedAction<Product | Product[]> | Action<Product | Product[]>>] => {
     const [store, dispatch] = React.useReducer(ProductStore, ProductStoreState)
-
-    return [store, (action: Action<Product | Product[]>) => ProductSaga(action, dispatch)]
+    return [store, dispatch]
 }
