@@ -1,25 +1,29 @@
 import axios, { AxiosRequestConfig } from "axios";
+import { IPagedResult } from ".";
 
-class WebService {
+export class WebService {
     private _baseUrl: string
-    private _token: string
+    private _token?: string
 
-    constructor({ baseUrl, token }: { baseUrl: string, token: string }) {
+    constructor({ baseUrl, token }: { baseUrl: string, token?: string }) {
         this._baseUrl = process.env.REACT_APP_API + baseUrl
         this._token = token
     }
 
     private _createHeader(): AxiosRequestConfig {
-        return {
+        const headers = {
             headers: {
-                Authorization: `Bearer ${this._token}`,
                 "Content-type": "application/json"
             }
         }
+
+        return !this._token ? headers : Object.assign(headers, {
+            Authorization: `Bearer ${this._token}`,
+        })
     }
 
-    async getPaged<T>(skip = 0, take = 0) {
-        const { data } = await axios.get<{ result: T[], total: number }>(`${this._baseUrl}/${skip}/${take}`, this._createHeader())
+    async getPaged<T>(skip = 0, take = 0): Promise<IPagedResult<T>> {
+        const { data } = await axios.get<IPagedResult<T>>(`${this._baseUrl}/${skip}/${take}`, this._createHeader())
         return data
     }
 
@@ -33,5 +37,3 @@ class WebService {
         return data
     }
 }
-
-export const useWebService = (baseUrl: string, token: string) => new WebService({ baseUrl, token });

@@ -1,9 +1,9 @@
 import React from "react"
 import { Product } from "../../domain"
-import { Action, PagedAction } from "../action"
-import { ProductActions } from "./productActions"
+import { IAction } from "../../actions"
+import { ProductStoreActions } from "../../actions/stores/products"
 
-interface IProductStoreState {
+export interface IProductStoreState {
     products: Product[],
     total: number
 }
@@ -13,21 +13,20 @@ const ProductStoreState: IProductStoreState = {
     total: 0
 }
 
-const ProductStore = (state: IProductStoreState, action: PagedAction<Product | Product[]> | Action<Product | Product[]>) => {
+export const ProductStore = (state = ProductStoreState, action: IAction<Product | Product[]>) => {
     switch (action.type) {
-        case ProductActions.GetAll:
-            const pagedAction = action as PagedAction<Product | Product[]>
+        case ProductStoreActions.GetAll:
             return Object.assign({}, state, {
-                products: pagedAction.payload,
-                total: pagedAction.total
+                products: action.payload,
+                total: action.pagination?.total
             })
 
-        case ProductActions.Get:
+        case ProductStoreActions.Get:
             return Object.assign({}, state, {
                 products: [...state.products, action.payload]
             })
 
-        case ProductActions.Add:
+        case ProductStoreActions.Add:
             return Object.assign({}, state)
 
         default:
@@ -35,7 +34,7 @@ const ProductStore = (state: IProductStoreState, action: PagedAction<Product | P
     }
 }
 
-export const useProductStore = (): [IProductStoreState, React.Dispatch<PagedAction<Product | Product[]> | Action<Product | Product[]>>] => {
+export const useProductStore = (): [IProductStoreState, React.Dispatch<IAction<Product | Product[]>>] => {
     const [store, dispatch] = React.useReducer(ProductStore, ProductStoreState)
     return [store, dispatch]
 }

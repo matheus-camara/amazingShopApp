@@ -1,7 +1,7 @@
 import React from "react"
 import axios from "axios"
 import { useLoader } from "../contexts"
-import { useStringLocalizer } from "../localization"
+import { useStringLocalizer } from "../contexts/localization"
 import { useSnackbar } from "notistack"
 import { Notification } from "../domain"
 

@@ -2,7 +2,7 @@ import React from "react"
 import { makeStyles, Theme, createStyles, MenuItem, Menu } from "@material-ui/core"
 import { LanguageOutlined } from "@material-ui/icons"
 import { Brasil_flag, Eua_flag } from "../../../static/images"
-import { useSetLanguage, SupportedLanguages } from "../../../localization"
+import { useSetLanguage, SupportedLanguages } from "../../../contexts"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     menuWrapper: {

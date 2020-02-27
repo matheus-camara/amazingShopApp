@@ -2,59 +2,40 @@ import React from 'react'
 import { Appbar } from '../../components'
 import { Container, Grid } from '@material-ui/core';
 import { ProductItem } from '../../components/productItem/ProductItem'
-import { useProductStore } from '../../../stores/'
+import { Product } from '../../../domain'
+import { useSelector, useDispatch } from "react-redux"
+import { ProductSagaActions } from '../../../actions/sagas/products'
+import { IRootState, IProductStoreState } from '../../../stores';
 
 interface IDashboardProps {
 
 }
 
-const Dashboard: React.FC<IDashboardProps> = (props) => {
+const Dashboard: React.FC<IDashboardProps> = (props: IDashboardProps) => {
 
-    const [productStore, dispatch] = useProductStore()
-    const [page, setPage] = React.useState(0);
+    const [page, setPage] = React.useState(0)
+    const dispatch = useDispatch()
+    const productStore = useSelector<IRootState>(s => s.product) as IProductStoreState
     const itemsPerPage = 20;
-    let index = 0;
 
-    React.useEffect(() => {
+    React.useEffect(() => {     
+        dispatch({
+            type: ProductSagaActions.GetAll,
+            pagination: {
+                skip: page * itemsPerPage,
+                take: itemsPerPage
+            }
+        })
     }, [page])
 
-    const renderItem = ({ columnIndex, rowIndex }: { columnIndex: number, rowIndex: number }) => {
-
-        const item = productStore.products[index];
-
-        return !!item ? (
+    const renderItem = (item: Product) => {
+        return (
             <ProductItem
-                key={index - 1}
+                key={item.id}
                 product={item}
-            >
-            </ProductItem>
-        ) : null
+            />
+        )
     }
-
-    // const renderItems = () => {
-    //     return (
-    //         <InfiniteLoader
-    //             itemCount={productStore.total}
-    //             isItemLoaded={(index: number) => index <= productStore.products.length}
-    //             loadMoreItems={(start: number, stop: number) => {
-    //                 setPage(Math.abs(start / itemsPerPage))
-    //                 return null
-    //             }}>
-    //             {
-    //                 ({ onItemsRendered, ref }) =>
-    //                     <FixedSizeGrid
-    //                         columnCount={1000}
-    //                         columnWidth={100}
-    //                         height={150}
-    //                         rowCount={1000}
-    //                         rowHeight={35}
-    //                         width={300}
-    //                     >
-    //                         {renderItem}
-    //                     </FixedSizeGrid>
-    //             }
-    //         </InfiniteLoader>)
-    // }
 
     return (
         <>
@@ -69,6 +50,7 @@ const Dashboard: React.FC<IDashboardProps> = (props) => {
                     alignItems="center"
                 >
                     {
+                        productStore.products.map(renderItem)
                     }
                 </Grid>
             </Container>

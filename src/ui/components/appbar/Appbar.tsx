@@ -1,11 +1,11 @@
-import React from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { useStringLocalizer } from "../../../localization";
-import { AppBar, Toolbar, IconButton, Typography, Menu, MenuItem } from "@material-ui/core";
-import { AccountCircle, Menu as MenuIcon, HomeOutlined } from "@material-ui/icons";
-import { LanguageSelector } from "../languageSelector/languageSelector";
-import { Redirect } from "react-router-dom";
-import { DASHBOARD_PAGE } from "../../../constants/routes";
+import React from "react"
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+import { useStringLocalizer } from "../../../contexts/localization"
+import { AppBar, Toolbar, IconButton, Typography, Menu, MenuItem } from "@material-ui/core"
+import { AccountCircle, Menu as MenuIcon, HomeOutlined } from "@material-ui/icons"
+import { LanguageSelector } from ".."
+import { Redirect } from "react-router-dom"
+import { Routes } from "../../../constants/routes"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -59,7 +59,7 @@ export const Appbar: React.FC<IAppbarProps> = (props) => {
                         aria-label="home button"
                         aria-controls="menu-appbar"
                         aria-haspopup="false"
-                        onClick={() => <Redirect to={DASHBOARD_PAGE} />}
+                        onClick={() => <Redirect to={Routes.DASHBOARD_PAGE} />}
                         color="inherit"
                     >
                         <HomeOutlined />

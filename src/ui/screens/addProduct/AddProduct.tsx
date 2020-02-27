@@ -4,8 +4,9 @@ import { Container, Grid, TextField, makeStyles, Button } from '@material-ui/cor
 import { Save } from '@material-ui/icons'
 import { Product } from '../../../domain'
 import { blankImage } from '../../../static/images'
-import { useStringLocalizer } from '../../../localization'
-import { useProductStore, ProductActions } from '../../../stores'
+import { useStringLocalizer } from '../../../contexts/localization'
+import { useProductStore } from '../../../stores'
+import { ProductSagaActions } from "../../../actions"
 
 interface IAddProductProps {
 }
@@ -122,7 +123,7 @@ const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => {
                     className={classes.button}
                     disabled={!validateForm()}
                     startIcon={<Save />}
-                    onClick={() => null}
+                    onClick={() => dispatch({type: ProductSagaActions.Add})}
                 >
                     {localizer.get("save")}
                 </Button>

@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Card, CardActionArea, CardMedia, CardContent, Typography, CardActions, Button, IconButton } from '@material-ui/core'
 import { AddShoppingCart } from '@material-ui/icons'
 import { Product } from '../../../domain';
-import { useStringLocalizer } from '../../../localization';
+import { useStringLocalizer } from '../../../contexts/localization';
 
 const useStyles = (width: number) => makeStyles({
     card: {

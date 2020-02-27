@@ -1,4 +1,4 @@
-import { LocalizedSet } from "../localization/Localization";
+import { LocalizedSet } from "../contexts"
 
 export const resources: LocalizedSet = {
     name: {

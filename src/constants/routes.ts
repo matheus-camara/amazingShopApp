@@ -1,2 +1,4 @@
-export const DASHBOARD_PAGE = "/dashboard";
-export const ADD_PRODUCT_PAGE = "/add-product";
+export enum Routes {
+    DASHBOARD_PAGE = "/dashboard",
+    ADD_PRODUCT_PAGE = "/add-product"
+}
