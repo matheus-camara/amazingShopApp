@@ -1,12 +1,12 @@
-import * as React from 'react'
-import { Appbar, ProductItem } from '../../components';
-import { Container, Grid, TextField, makeStyles, Button } from '@material-ui/core'
-import { Save } from '@material-ui/icons'
-import { Product } from '../../../domain'
-import { blankImage } from '../../../static/images'
-import { useStringLocalizer } from '../../../contexts/localization'
-import { useProductStore } from '../../../stores'
+import * as React from "react"
+import { Appbar, ProductItem } from "../../components"
+import { Container, Grid, TextField, makeStyles, Button } from "@material-ui/core"
+import { Save } from "@material-ui/icons"
+import { Product } from "../../../domain"
+import { blankImage } from "../../../static/images"
+import { useStringLocalizer } from "../../../contexts/localization"
 import { ProductSagaActions } from "../../../actions"
+import { useDispatch } from "react-redux"
 
 interface IAddProductProps {
 }
@@ -38,7 +38,7 @@ const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => {
     const [price, setPrice] = React.useState("")
 
     const validatePriceInput = (val: string) => val?.length === 0 || (!!val && !isNaN(+val) && isFinite(+val))
-    const validateForm = () => !!name && !!description && !!imageUrl && validatePriceInput(price);
+    const validateForm = () => !!name && !!description && !!imageUrl && validatePriceInput(price)
     const createProduct = () => new Product({
         id: 0,
         name: name,
@@ -51,7 +51,7 @@ const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => {
 
     const classes = useStyles()
     const localizer = useStringLocalizer()
-    const [, dispatch] = useProductStore()
+    const dispatch = useDispatch()
 
     return (
         <>
@@ -130,7 +130,7 @@ const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => {
             </Container>
 
         </>
-    );
-};
+    )
+}
 
 export default AddProduct

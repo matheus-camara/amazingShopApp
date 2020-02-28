@@ -19,25 +19,25 @@ const useStyles = makeStyles((theme: Theme) =>
             flexGrow: 1
         }
     })
-);
+)
 
 interface IAppbarProps { }
 
 export const Appbar: React.FC<IAppbarProps> = (props) => {
-    const classes = useStyles();
-    const [auth] = React.useState(true);
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
+    const classes = useStyles()
+    const [auth] = React.useState(true)
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+    const open = Boolean(anchorEl)
 
-    const localizer = useStringLocalizer();
+    const localizer = useStringLocalizer()
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
+        setAnchorEl(event.currentTarget)
+    }
 
     const handleClose = () => {
-        setAnchorEl(null);
-    };
+        setAnchorEl(null)
+    }
 
     return (
         <div className={classes.root}>
@@ -99,5 +99,5 @@ export const Appbar: React.FC<IAppbarProps> = (props) => {
                 </Toolbar>
             </AppBar>
         </div>
-    );
-};
+    )
+}

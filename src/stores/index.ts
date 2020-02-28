@@ -1,4 +1,4 @@
-import { useProductStore, ProductStore, IProductStoreState } from "./products/productStore"
+import { ProductStore, IProductStoreState } from "./products/productStore"
 import { createStore, combineReducers, applyMiddleware } from "redux"
 import createSagaMiddleware from "redux-saga"
 import { rootSaga } from "../sagas"
@@ -21,5 +21,4 @@ export interface IRootState {
 
 export {
     store,
-    useProductStore,
 }

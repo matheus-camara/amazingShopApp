@@ -7,12 +7,12 @@ import { ProductSagaActions } from "../../actions/sagas/products"
 
 function* getProductsSaga(action: IAction<Product[]>) {
     try {
-        const webService = new WebService({ baseUrl: "product" });
+        const webService = new WebService({ baseUrl: "product" })
         const response = yield webService.getPaged<Product>(action.pagination?.skip, action?.pagination?.take)
 
         yield put({
             type: ProductStoreActions.GetAll,
-            payload: response.payload,
+            payload: response.result,
             pagination: {
                 total: response.total
             }
@@ -32,7 +32,7 @@ function* addProductsSaga(action: IAction<Product>) {
         const webService = new WebService({ baseUrl: "product" })
         yield webService.save(action.payload)
     } catch (error) {
-        throw error;
+        throw error
     }
 }
 

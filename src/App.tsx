@@ -1,12 +1,12 @@
-import React from 'react';
-import './App.css';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import { Routes } from './constants/routes';
-import { Dashboard, AddProduct } from './ui/screens';
-import { StringLocalizerProvider, SupportedLanguages } from './contexts/localization';
-import { resources } from './static/Resources';
-import { LoaderProvider } from './contexts/loader/loaderContext';
-import { SnackbarProvider } from 'notistack';
+import React from "react"
+import "./App.css"
+import { Switch, Route, Redirect } from "react-router-dom"
+import { Routes } from "./constants/routes"
+import { Dashboard, AddProduct } from "./ui/screens"
+import { StringLocalizerProvider, SupportedLanguages } from "./contexts/localization"
+import { resources } from "./static/Resources"
+import { LoaderProvider } from "./contexts/loader/loaderContext"
+import { SnackbarProvider } from "notistack"
 
 const App: React.FC = () => {
 
@@ -24,7 +24,7 @@ const App: React.FC = () => {
                 </SnackbarProvider>
             </StringLocalizerProvider>
         </div>
-    );
+    )
 }
 
-export default App;
+export default App

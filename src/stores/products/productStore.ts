@@ -1,4 +1,3 @@
-import React from "react"
 import { Product } from "../../domain"
 import { IAction } from "../../actions"
 import { ProductStoreActions } from "../../actions/stores/products"
@@ -32,9 +31,4 @@ export const ProductStore = (state = ProductStoreState, action: IAction<Product 
         default:
             return ProductStoreState
     }
-}
-
-export const useProductStore = (): [IProductStoreState, React.Dispatch<IAction<Product | Product[]>>] => {
-    const [store, dispatch] = React.useReducer(ProductStore, ProductStoreState)
-    return [store, dispatch]
 }

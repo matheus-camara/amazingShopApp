@@ -1,9 +1,9 @@
-import axios, { AxiosRequestConfig } from "axios";
-import { IPagedResult } from ".";
+import axios, { AxiosRequestConfig } from "axios"
+import { IPagedResult } from "."
 
 export class WebService {
     private _baseUrl: string
-    private _token?: string
+    private _token?: string | undefined
 
     constructor({ baseUrl, token }: { baseUrl: string, token?: string }) {
         this._baseUrl = process.env.REACT_APP_API + baseUrl

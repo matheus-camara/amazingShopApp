@@ -2,7 +2,7 @@ import React from "react"
 import { Interceptor } from "../../services"
 import { Loader } from "../../ui/components"
 
-const ToggleLoaderContext = React.createContext<((show: boolean) => void) | null>(null);
+const ToggleLoaderContext = React.createContext<((show: boolean) => void) | null>(null)
 
 export const LoaderProvider = ({ children }: { children: any }) => {
     const [loading, setLoading] = React.useState(false)

@@ -1,9 +1,9 @@
 import { WebService } from "./webService"
-import { Interceptor } from "./interceptor";
+import { Interceptor } from "./interceptor"
 
 export interface IPagedResult<T> {
     result: T[],
-    total: number;
+    total: number
 }
 
 export {

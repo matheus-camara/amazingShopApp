@@ -1,17 +1,17 @@
-import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import { Card, CardActionArea, CardMedia, CardContent, Typography, CardActions, Button, IconButton } from '@material-ui/core'
-import { AddShoppingCart } from '@material-ui/icons'
-import { Product } from '../../../domain';
-import { useStringLocalizer } from '../../../contexts/localization';
+import React from "react"
+import { makeStyles } from "@material-ui/core/styles"
+import { Card, CardActionArea, CardMedia, CardContent, Typography, CardActions, Button, IconButton } from "@material-ui/core"
+import { AddShoppingCart } from "@material-ui/icons"
+import { Product } from "../../../domain"
+import { useStringLocalizer } from "../../../contexts/localization"
 
 const useStyles = (width: number) => makeStyles({
     card: {
-        maxWidth: width,
+        width: width,
         margin: 10,
         marginTop: 15
     },
-})();
+})()
 
 interface IProductItemProps {
     product: Product
@@ -20,8 +20,8 @@ interface IProductItemProps {
 export const ProductItem: React.FC<IProductItemProps> = (props) => {
     const [height, maxWidth] = [160, 260]
 
-    const classes = useStyles(maxWidth);
-    const localizer = useStringLocalizer();
+    const classes = useStyles(maxWidth)
+    const localizer = useStringLocalizer()
 
     return (
         <Card className={classes.card}>
@@ -53,5 +53,5 @@ export const ProductItem: React.FC<IProductItemProps> = (props) => {
                 </IconButton>
             </CardActions>
         </Card>
-    );
+    )
 }

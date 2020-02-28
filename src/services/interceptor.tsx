@@ -7,9 +7,9 @@ import { Notification } from "../domain"
 
 export const Interceptor: React.FC<any> = (props) => {
 
-    const setLoading = useLoader();
-    const localizer = useStringLocalizer();
-    const { enqueueSnackbar } = useSnackbar();
+    const setLoading = useLoader()
+    const localizer = useStringLocalizer()
+    const { enqueueSnackbar } = useSnackbar()
 
     const handleUnauthorize = () => enqueueSnackbar(localizer.get("unAuthorized"), { variant: "error" })
     const handleNotFound = () => enqueueSnackbar(localizer.get("notFound"), { variant: "warning" })
@@ -41,7 +41,7 @@ export const Interceptor: React.FC<any> = (props) => {
             (error) => {
                 setLoading(false)
                 if (!error.response) {
-                    handleServerUnavailable();
+                    handleServerUnavailable()
                 }
                 switch (error.response?.status) {
                     case 400:
@@ -58,7 +58,7 @@ export const Interceptor: React.FC<any> = (props) => {
             })
     }
 
-    configureRequestInterceptor();
+    configureRequestInterceptor()
 
-    return null;
+    return null
 }
