@@ -7,10 +7,12 @@ import { useStringLocalizer } from "../../../contexts/localization"
 
 const useStyles = (width: number) => makeStyles({
     card: {
+        maxHeight: 360,
         width: width,
-        margin: 10,
-        marginTop: 15
     },
+    cardWrapper: {
+        padding: 10
+    }
 })()
 
 interface IProductItemProps {
@@ -24,34 +26,36 @@ export const ProductItem: React.FC<IProductItemProps> = (props) => {
     const localizer = useStringLocalizer()
 
     return (
-        <Card className={classes.card}>
-            <CardActionArea>
-                <CardMedia
-                    component="img"
-                    alt="Image of product"
-                    height={height}
-                    image={props.product.imageUrl}
-                    title="product image"
-                />
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                        {props.product.name}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        {props.product.description}
-                    </Typography>
-                </CardContent>
-            </CardActionArea>
-            <CardActions>
-                <Button size="small" color="primary">
-                    {localizer.get("save")}
-                </Button>
-                <IconButton
-                    onClick={() => null}
-                >
-                    <AddShoppingCart />
-                </IconButton>
-            </CardActions>
-        </Card>
+        <div className={classes.cardWrapper}>
+            <Card className={classes.card}>
+                <CardActionArea>
+                    <CardMedia
+                        component="img"
+                        alt="Image of product"
+                        height={height}
+                        image={props.product.imageUrl}
+                        title="product image"
+                    />
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="h2">
+                            {props.product.name}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                            {props.product.description}
+                        </Typography>
+                    </CardContent>
+                </CardActionArea>
+                <CardActions>
+                    <Button size="small" color="primary">
+                        {localizer.get("save")}
+                    </Button>
+                    <IconButton
+                        onClick={() => null}
+                    >
+                        <AddShoppingCart />
+                    </IconButton>
+                </CardActions>
+            </Card>
+        </div>
     )
 }

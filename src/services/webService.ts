@@ -6,7 +6,7 @@ export class WebService {
     private _token?: string | undefined
 
     constructor({ baseUrl, token }: { baseUrl: string, token?: string }) {
-        this._baseUrl = process.env.REACT_APP_API + baseUrl
+        this._baseUrl = process.env.REACT_APP_API_HTTP + baseUrl
         this._token = token
     }
 
