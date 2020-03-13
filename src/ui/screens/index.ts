@@ -1,7 +1,2 @@
-import Dashboard from "./dashboard/Dashboard"
-import AddProduct from "./addProduct/AddProduct"
-
-export {
-    Dashboard,
-    AddProduct
-}
+export * from "./dashboard/Dashboard"
+export * from "./addProduct/AddProduct"

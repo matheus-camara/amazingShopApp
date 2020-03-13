@@ -60,5 +60,17 @@ export const resources: LocalizedSet = {
     serverUnavailable: {
         enUS: "Server Unreachable",
         ptBR: "Impossível comunicar com o servidor"
+    },
+    of: {
+        enUS: "of",
+        ptBR: "de"
+    },
+    previous: {
+        enUS: "Previous",
+        ptBR: "Anterior"
+    },
+    next: {
+        enUS: "Next",
+        ptBR: "Próxima"
     }
 }

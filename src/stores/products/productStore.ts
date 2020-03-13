@@ -29,6 +29,6 @@ export const ProductStore = (state = ProductStoreState, action: IAction<Product 
             return Object.assign({}, state)
 
         default:
-            return ProductStoreState
+            return state
     }
 }

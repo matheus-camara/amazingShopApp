@@ -27,7 +27,6 @@ function* watchGetProductsSaga() {
 }
 
 function* addProductsSaga(action: IAction<Product>) {
-    debugger
     try {
         const webService = new WebService({ baseUrl: "product" })
         yield webService.save(action.payload)

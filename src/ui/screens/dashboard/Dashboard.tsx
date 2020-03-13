@@ -1,11 +1,11 @@
 import React from "react"
-import { Appbar } from "../../components"
-import { Container, Grid, GridList, GridListTile, makeStyles, ButtonGroup, Button } from "@material-ui/core"
-import { ProductItem } from "../../components/productItem/ProductItem"
+import { AppDrawer, ProductItem } from "../../components"
+import { Container, Grid, GridList, makeStyles, ButtonGroup, Button } from "@material-ui/core"
 import { Product } from "../../../domain"
 import { useSelector, useDispatch } from "react-redux"
 import { ProductSagaActions } from "../../../actions/sagas/products"
 import { IRootState, IProductStoreState } from "../../../stores"
+import { useStringLocalizer } from "../../../contexts"
 
 const useStyles = makeStyles({
     actionBar: {
@@ -21,11 +21,13 @@ const useStyles = makeStyles({
 
 interface IDashboardProps { }
 const itemsPerPage = 20
-const Dashboard: React.FC<IDashboardProps> = (props: IDashboardProps) => {
+export const Dashboard: React.FC<IDashboardProps> = (props: IDashboardProps) => {
     const styles = useStyles();
     const [page, setPage] = React.useState(0)
     const productStore = useSelector<IRootState>(s => s.product) as IProductStoreState
     const dispatch = useDispatch()
+    const localizer = useStringLocalizer()
+    const totalPaginas = Math.floor((productStore?.total / itemsPerPage))
 
     React.useEffect(() => {
         const loadData = () => dispatch({
@@ -57,8 +59,7 @@ const Dashboard: React.FC<IDashboardProps> = (props: IDashboardProps) => {
     }
 
     return (
-        <>
-            <Appbar />
+        <AppDrawer>
             <Container
                 maxWidth="xl"
             >
@@ -79,15 +80,15 @@ const Dashboard: React.FC<IDashboardProps> = (props: IDashboardProps) => {
                         }
                     </GridList>
                     <ButtonGroup className={styles.actionBar}>
-                        <Button onClick={getPreviousPage}> Previous </Button>
-                        <Button> {page} </Button>
-                        <Button onClick={getNextPage}> Next </Button>
+                        <Button onClick={getPreviousPage} disabled={page === 0}>{localizer.get("previous")}</Button>
+                        <Button disabled>
+                            {`${page + 1} ${localizer.get("of")} ${totalPaginas}`}
+                        </Button>
+                        <Button onClick={getNextPage} disabled={page + 1 === totalPaginas}>{localizer.get("next")}</Button>
                     </ButtonGroup>
 
                 </Grid>
             </Container>
-        </>
+        </AppDrawer>
     )
 }
-
-export default Dashboard
