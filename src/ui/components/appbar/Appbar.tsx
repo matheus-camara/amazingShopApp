@@ -21,7 +21,9 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 )
 
-interface IAppbarProps { }
+interface IAppbarProps {
+    position: string
+}
 
 export const Appbar: React.FC<IAppbarProps> = (props) => {
     const classes = useStyles()
@@ -41,7 +43,7 @@ export const Appbar: React.FC<IAppbarProps> = (props) => {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static">
+            <AppBar position={props.position}>
                 <Toolbar>
                     <IconButton
                         edge="start"

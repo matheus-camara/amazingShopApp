@@ -1,6 +1,6 @@
 import React from "react"
 import { Appbar } from "../../components"
-import { Container, Grid, GridList, GridListTile, makeStyles, ButtonGroup, Button } from "@material-ui/core"
+import { Container, Grid, GridList, makeStyles, ButtonGroup, Button } from "@material-ui/core"
 import { ProductItem } from "../../components/productItem/ProductItem"
 import { Product } from "../../../domain"
 import { useSelector, useDispatch } from "react-redux"
