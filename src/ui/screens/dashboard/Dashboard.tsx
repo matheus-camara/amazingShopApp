@@ -1,5 +1,5 @@
 import React from "react"
-import { Appbar } from "../../components"
+import { AppDrawer } from "../../components"
 import { Container, Grid, GridList, makeStyles, ButtonGroup, Button } from "@material-ui/core"
 import { ProductItem } from "../../components/productItem/ProductItem"
 import { Product } from "../../../domain"
@@ -57,8 +57,7 @@ const Dashboard: React.FC<IDashboardProps> = (props: IDashboardProps) => {
     }
 
     return (
-        <>
-            <Appbar />
+        <AppDrawer>
             <Container
                 maxWidth="xl"
             >
@@ -86,7 +85,7 @@ const Dashboard: React.FC<IDashboardProps> = (props: IDashboardProps) => {
 
                 </Grid>
             </Container>
-        </>
+        </AppDrawer>
     )
 }
 

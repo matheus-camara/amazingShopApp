@@ -1,11 +1,5 @@
-import { Appbar } from "./appbar/Appbar"
-import { ProductItem } from "./productItem/ProductItem"
-import { Loader } from "./loader/loader"
-import { LanguageSelector } from "./languageSelector/languageSelector"
-
-export {
-    Appbar,
-    ProductItem,
-    Loader,
-    LanguageSelector
-}
+export * from "./appbar/Appbar"
+export * from "./productItem/ProductItem"
+export * from "./loader/loader"
+export * from "./languageSelector/languageSelector"
+export * from "./drawer/Drawer"

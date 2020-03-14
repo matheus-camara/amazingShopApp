@@ -1,9 +1,8 @@
 import * as React from "react"
-import { Appbar, ProductItem } from "../../components"
+import { AppDrawer, ProductItem } from "../../components"
 import { Container, Grid, TextField, makeStyles, Button } from "@material-ui/core"
 import { Save } from "@material-ui/icons"
 import { Product } from "../../../domain"
-import { blankImage } from "../../../static/images"
 import { useStringLocalizer } from "../../../contexts/localization"
 import { ProductSagaActions } from "../../../actions"
 import { useDispatch } from "react-redux"
@@ -34,7 +33,7 @@ const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => {
 
     const [name, setName] = React.useState("")
     const [description, setDescription] = React.useState("")
-    const [imageUrl, setImageUrl] = React.useState(blankImage)
+    const [imageUrl, setImageUrl] = React.useState("")
     const [price, setPrice] = React.useState("")
 
     const validatePriceInput = (val: string) => val?.length === 0 || (!!val && !isNaN(+val) && isFinite(+val))
@@ -54,9 +53,7 @@ const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => {
     const dispatch = useDispatch()
 
     return (
-        <>
-            <Appbar />
-
+        <AppDrawer>
             <Container className={classes.container}>
                 <Grid container direction="column" alignItems="center">
 
@@ -123,13 +120,12 @@ const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => {
                     className={classes.button}
                     disabled={!validateForm()}
                     startIcon={<Save />}
-                    onClick={() => dispatch({type: ProductSagaActions.Add})}
+                    onClick={() => dispatch({ type: ProductSagaActions.Add })}
                 >
                     {localizer.get("save")}
                 </Button>
             </Container>
-
-        </>
+        </AppDrawer>
     )
 }
 

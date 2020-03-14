@@ -1,6 +1,7 @@
 import React from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import { Card, CardActionArea, CardMedia, CardContent, Typography, CardActions, Button, IconButton } from "@material-ui/core"
+import { blankImage } from "../../../static/images"
 import { AddShoppingCart } from "@material-ui/icons"
 import { Product } from "../../../domain"
 import { useStringLocalizer } from "../../../contexts/localization"
@@ -33,7 +34,7 @@ export const ProductItem: React.FC<IProductItemProps> = (props) => {
                         component="img"
                         alt="Image of product"
                         height={height}
-                        image={props.product.imageUrl}
+                        image={props.product.imageUrl === "" ? blankImage : props.product.imageUrl}
                         title="product image"
                     />
                     <CardContent>
