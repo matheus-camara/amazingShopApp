@@ -1,22 +1,31 @@
 import { ProductStore, IProductStoreState } from "./products/productStore"
+import { AuthenticationStore, IAuthenticationState } from "./authentications/AuthenticationStore"
 import { createStore, combineReducers, applyMiddleware } from "redux"
 import createSagaMiddleware from "redux-saga"
 import { rootSaga } from "../sagas"
 
-const middleware = createSagaMiddleware()
+const sagaMiddleware = createSagaMiddleware()
 
 const rootStore = combineReducers({
-    product: ProductStore
+    product: ProductStore,
+    authentication: AuthenticationStore
 })
 
-const store = createStore(rootStore, applyMiddleware(middleware))
+const store = createStore(rootStore,
+    applyMiddleware(
+        sagaMiddleware
+    )
+)
 
-middleware.run(rootSaga)
+sagaMiddleware.run(rootSaga)
 
 export * from "./products/productStore"
+export * from "./authentications/AuthenticationStore"
 
 export interface IRootState {
-    product: IProductStoreState
+    product: IProductStoreState,
+    authentication: IAuthenticationState,
+    router: any
 }
 
 export {

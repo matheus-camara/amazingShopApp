@@ -17,8 +17,8 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         height: "100%"
     },
     menuItem: {
-        height: 40,
-        width: 45,
+        height: 50,
+        width: 50,
         display: "flex",
         justifyContent: "center"
     },

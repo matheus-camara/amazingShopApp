@@ -4,14 +4,20 @@ import { useLoader } from "../contexts"
 import { useStringLocalizer } from "../contexts/localization"
 import { useSnackbar } from "notistack"
 import { Notification } from "../domain"
+import { useHistory } from "react-router-dom"
 
 export const Interceptor: React.FC<any> = (props) => {
 
     const setLoading = useLoader()
     const localizer = useStringLocalizer()
+    const history = useHistory()
     const { enqueueSnackbar } = useSnackbar()
 
-    const handleUnauthorize = () => enqueueSnackbar(localizer.get("unAuthorized"), { variant: "error" })
+    const handleUnauthorize = () => {
+        enqueueSnackbar(localizer.get("unAuthorized"), { variant: "error" })
+        history.push("/")
+    }
+
     const handleNotFound = () => enqueueSnackbar(localizer.get("notFound"), { variant: "warning" })
     const handleBadRequest = (data: Notification[]) => data.forEach(n => enqueueSnackbar(`${n.id}: ${n.value}`, { variant: "error" }))
     const handleServerUnavailable = () => enqueueSnackbar(localizer.get("serverUnavailable"), { variant: "warning" })

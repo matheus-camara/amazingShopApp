@@ -8,10 +8,9 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined';
 import { HomeOutlined } from '@material-ui/icons';
-import { Redirect } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Routes } from '../../../constants/routes';
 import { useStringLocalizer } from '../../../contexts';
-
 
 const drawerWidth = 240;
 
@@ -85,9 +84,10 @@ const useStyles = makeStyles((theme: Theme) =>
 export const AppDrawer: React.FC = (props) => {
     const classes = useStyles();
     const stringLocalizer = useStringLocalizer();
+    const { state } = useLocation() as any;
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
-    const [selected, setSelected] = React.useState<Routes | null>(null);
+    const history = useHistory();
+    const [open, setOpen] = React.useState(state?.drawerOpen ?? false);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -99,7 +99,6 @@ export const AppDrawer: React.FC = (props) => {
 
     return (
         <div className={classes.root}>
-            {selected === null ? null : <Redirect to={selected} />}
             <CssBaseline />
             <Appbar
                 position="fixed"
@@ -139,7 +138,7 @@ export const AppDrawer: React.FC = (props) => {
                 </div>
                 <Divider />
                 <List>
-                    <ListItem button onClick={() => setSelected(Routes.DASHBOARD_PAGE)}>
+                    <ListItem button onClick={() => history.push(Routes.DASHBOARD_PAGE, { drawerOpen: open })}>
                         <ListItemIcon >
                             <HomeOutlined />
                         </ListItemIcon>
@@ -149,7 +148,7 @@ export const AppDrawer: React.FC = (props) => {
                             </Typography>
                         </ListItemText>
                     </ListItem>
-                    <ListItem button onClick={() => setSelected(Routes.ADD_PRODUCT_PAGE)}>
+                    <ListItem button onClick={() => history.push(Routes.ADD_PRODUCT_PAGE, { drawerOpen: open })}>
                         <ListItemIcon>
                             <AddBoxOutlinedIcon />
                         </ListItemIcon>
@@ -163,6 +162,6 @@ export const AppDrawer: React.FC = (props) => {
                 <div className={classes.toolbar} />
                 {props.children}
             </main>
-        </div>
-    );
+        </div >
+    )
 }
