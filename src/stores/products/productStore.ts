@@ -4,12 +4,14 @@ import { ProductStoreActions } from "../../actions/stores/products"
 
 export interface IProductStoreState {
     products: Product[],
-    total: number
+    total: number,
+    selected: Product | null
 }
 
 const ProductStoreState: IProductStoreState = {
     products: [],
-    total: 0
+    total: 0,
+    selected: null
 }
 
 export const ProductStore = (state = ProductStoreState, action: IAction<Product | Product[]>) => {
@@ -22,7 +24,7 @@ export const ProductStore = (state = ProductStoreState, action: IAction<Product 
 
         case ProductStoreActions.Get:
             return Object.assign({}, state, {
-                products: [...state.products, action.payload]
+                selected: action.payload
             })
 
         case ProductStoreActions.Add:

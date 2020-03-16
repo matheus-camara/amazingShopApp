@@ -22,6 +22,24 @@ function* getProductsSaga(action: IAction<Product[]>) {
     }
 }
 
+function* getSingleProductSaga(action: IAction<number>) {
+    try {
+        const webService = new WebService({ baseUrl: "product" })
+        const response = yield webService.find<Product>(action.payload ?? 0)
+
+        yield put({
+            type: ProductStoreActions.Get,
+            payload: response.result,
+        })
+
+    } catch (error) {
+    }
+}
+
+function* watchGetSingleProductSaga() {
+    yield takeLatest(ProductSagaActions.GetDetailed, getSingleProductSaga)
+}
+
 function* watchGetProductsSaga() {
     yield takeLatest(ProductSagaActions.GetAll, getProductsSaga)
 }
@@ -41,6 +59,7 @@ function* watchAddProductsSaga() {
 export function* watchProductsSaga() {
     yield all([
         watchGetProductsSaga(),
-        watchAddProductsSaga()
+        watchAddProductsSaga(),
+        watchGetSingleProductSaga()
     ])
 }

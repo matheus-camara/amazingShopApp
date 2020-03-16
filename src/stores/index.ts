@@ -25,7 +25,6 @@ export * from "./authentications/AuthenticationStore"
 export interface IRootState {
     product: IProductStoreState,
     authentication: IAuthenticationState,
-    router: any
 }
 
 export {

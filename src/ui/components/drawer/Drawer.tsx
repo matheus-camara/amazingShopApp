@@ -75,6 +75,7 @@ const useStyles = makeStyles((theme: Theme) =>
             ...theme.mixins.toolbar,
         },
         content: {
+            height: "100%",
             flexGrow: 1,
             padding: theme.spacing(3),
         },
@@ -138,7 +139,7 @@ export const AppDrawer: React.FC = (props) => {
                 </div>
                 <Divider />
                 <List>
-                    <ListItem button onClick={() => history.push(Routes.DASHBOARD_PAGE, { drawerOpen: open })}>
+                    <ListItem alignItems="center" button onClick={() => history.push(Routes.DASHBOARD_PAGE, { drawerOpen: open })}>
                         <ListItemIcon >
                             <HomeOutlined />
                         </ListItemIcon>
@@ -148,7 +149,7 @@ export const AppDrawer: React.FC = (props) => {
                             </Typography>
                         </ListItemText>
                     </ListItem>
-                    <ListItem button onClick={() => history.push(Routes.ADD_PRODUCT_PAGE, { drawerOpen: open })}>
+                    <ListItem alignItems="center" button onClick={() => history.push(Routes.ADD_PRODUCT_PAGE, { drawerOpen: open })}>
                         <ListItemIcon>
                             <AddBoxOutlinedIcon />
                         </ListItemIcon>

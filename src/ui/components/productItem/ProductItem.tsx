@@ -5,6 +5,8 @@ import { blankImage } from "../../../static/images"
 import { AddShoppingCart } from "@material-ui/icons"
 import { Product } from "../../../domain"
 import { useStringLocalizer } from "../../../contexts/localization"
+import { useHistory } from "react-router-dom"
+import { Routes } from "../../../constants/routes"
 
 const useStyles = (width: number) => makeStyles({
     card: {
@@ -24,11 +26,12 @@ export const ProductItem: React.FC<IProductItemProps> = (props) => {
     const [height, maxWidth] = [160, 260]
 
     const classes = useStyles(maxWidth)
+    const history = useHistory()
     const localizer = useStringLocalizer()
 
     return (
         <div className={classes.cardWrapper}>
-            <Card className={classes.card}>
+            <Card className={classes.card} onClick={() => history.push(Routes.VIEW_PRODUCT_PAGE.replace(":id", props.product.id.toString()))}>
                 <CardActionArea>
                     <CardMedia
                         component="img"
