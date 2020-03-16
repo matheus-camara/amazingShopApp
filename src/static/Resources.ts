@@ -72,5 +72,13 @@ export const resources: LocalizedSet = {
     next: {
         enUS: "Next",
         ptBR: "Próxima"
+    },
+    dashboard: {
+        enUS: "Dashboard",
+        ptBR: "Dashboard"
+    },
+    addProduct: {
+        enUS: "Add Product",
+        ptBR: "Adicionar Produto"
     }
 }

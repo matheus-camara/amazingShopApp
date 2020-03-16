@@ -2,17 +2,25 @@ import React from 'react';
 import clsx from 'clsx';
 import { createStyles, makeStyles, useTheme, Theme } from '@material-ui/core/styles';
 import { Appbar } from "..";
-import { CssBaseline, IconButton, Drawer, Divider, List, ListItem, ListItemText, Button, } from '@material-ui/core';
+import { CssBaseline, IconButton, Drawer, Divider, List, ListItem, ListItemIcon, Typography, ListItemText } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined';
+import { HomeOutlined } from '@material-ui/icons';
+import { Redirect } from 'react-router-dom';
+import { Routes } from '../../../constants/routes';
 import { useStringLocalizer } from '../../../contexts';
+
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
+        menuListItem: {
+            width: "100%",
+            borderRadius: "0%"
+        },
         root: {
             display: 'flex',
         },
@@ -75,10 +83,11 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export const AppDrawer: React.FC = (props) => {
-    const classes = useStyles(props);
+    const classes = useStyles();
+    const stringLocalizer = useStringLocalizer();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
-    const stringLocalizer = useStringLocalizer();
+    const [selected, setSelected] = React.useState<Routes | null>(null);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -90,6 +99,7 @@ export const AppDrawer: React.FC = (props) => {
 
     return (
         <div className={classes.root}>
+            {selected === null ? null : <Redirect to={selected} />}
             <CssBaseline />
             <Appbar
                 position="fixed"
@@ -129,21 +139,30 @@ export const AppDrawer: React.FC = (props) => {
                 </div>
                 <Divider />
                 <List>
-                    <ListItem button key={"add-product"}>
-                        <Button>
+                    <ListItem button onClick={() => setSelected(Routes.DASHBOARD_PAGE)}>
+                        <ListItemIcon >
+                            <HomeOutlined />
+                        </ListItemIcon>
+                        <ListItemText>
+                            <Typography autoCapitalize="true" align="justify" >
+                                {stringLocalizer.get("dashboard")}
+                            </Typography>
+                        </ListItemText>
+                    </ListItem>
+                    <ListItem button onClick={() => setSelected(Routes.ADD_PRODUCT_PAGE)}>
+                        <ListItemIcon>
                             <AddBoxOutlinedIcon />
-                            {open ? <ListItemText primary={stringLocalizer.get("addProduct")} /> : null}
-                        </Button>
+                        </ListItemIcon>
+                        <ListItemText>
+                            {stringLocalizer.get("addProduct")}
+                        </ListItemText>
                     </ListItem>
                 </List>
-                <Divider />
             </Drawer>
             <main className={classes.content}>
-                <div className={classes.toolbar}></div>
-                {
-                    props.children
-                }
+                <div className={classes.toolbar} />
+                {props.children}
             </main>
-        </div >
+        </div>
     );
 }
