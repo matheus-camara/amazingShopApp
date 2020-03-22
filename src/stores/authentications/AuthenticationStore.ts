@@ -7,7 +7,7 @@ export interface IAuthenticationState {
 
 const AuthenticationInitialState: IAuthenticationState = {
     token: "",
-    authenticated: false
+    authenticated: true
 }
 
 export const AuthenticationStore = (state = AuthenticationInitialState, action: IAction<null>) => {

@@ -1,5 +1,6 @@
 import { ProductStore, IProductStoreState } from "./products/productStore"
 import { AuthenticationStore, IAuthenticationState } from "./authentications/AuthenticationStore"
+import { CartStore, ICartStoreState } from "./products/cartStore"
 import { createStore, combineReducers, applyMiddleware } from "redux"
 import createSagaMiddleware from "redux-saga"
 import { rootSaga } from "../sagas"
@@ -8,6 +9,7 @@ const sagaMiddleware = createSagaMiddleware()
 
 const rootStore = combineReducers({
     product: ProductStore,
+    cart: CartStore,
     authentication: AuthenticationStore
 })
 
@@ -20,10 +22,12 @@ const store = createStore(rootStore,
 sagaMiddleware.run(rootSaga)
 
 export * from "./products/productStore"
+export * from "./products/cartStore"
 export * from "./authentications/AuthenticationStore"
 
 export interface IRootState {
     product: IProductStoreState,
+    cart: ICartStoreState,
     authentication: IAuthenticationState,
 }
 

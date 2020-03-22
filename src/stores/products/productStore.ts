@@ -5,13 +5,15 @@ import { ProductStoreActions } from "../../actions/stores/products"
 export interface IProductStoreState {
     products: Product[],
     total: number,
-    selected: Product | null
+    selected: Product | null,
+    currentPage: number
 }
 
 const ProductStoreState: IProductStoreState = {
     products: [],
     total: 0,
-    selected: null
+    selected: null,
+    currentPage: 0
 }
 
 export const ProductStore = (state = ProductStoreState, action: IAction<Product | Product[]>) => {
@@ -19,7 +21,8 @@ export const ProductStore = (state = ProductStoreState, action: IAction<Product 
         case ProductStoreActions.GetAll:
             return Object.assign({}, state, {
                 products: action.payload,
-                total: action.pagination?.total
+                total: action.pagination?.total,
+                currentPage: action.pagination?.currentPage
             })
 
         case ProductStoreActions.Get:

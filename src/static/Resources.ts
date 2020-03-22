@@ -80,5 +80,25 @@ export const resources: LocalizedSet = {
     addProduct: {
         enUS: "Add Product",
         ptBR: "Adicionar Produto"
+    },
+    total: {
+        enUS: "Total",
+        ptBR: "Total"
+    },
+    addToCart: {
+        enUS: "Add to Cart",
+        ptBR: "Adicionar ao Carrinho"
+    },
+    edit: {
+        enUS: "Edit",
+        ptBR: "Editar"
+    },
+    yes: {
+        enUS: "yes",
+        ptBR: "Sim"
+    },
+    areYouSure: {
+        enUS: "Are you sure?",
+        ptBR: "Você tem certeza?"
     }
 }

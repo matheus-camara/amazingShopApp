@@ -10,10 +10,12 @@ export const AppRouter: React.FC<{ routes: IRoute[] }> = (props) => {
 
     return (
         <Switch>
-            {routes.map((route) =>
-                route.isPrivate ?
-                    <PrivateRoute key={route.path} route={route} /> :
-                    <Route key={route.path} path={route.path} component={route.component} exact={route.exact} />)}
+            {
+                routes.map((route) =>
+                    route.isPrivate
+                        ? <PrivateRoute key={route.path} route={route} />
+                        : <Route key={route.path} path={route.path} component={route.component} exact={route.exact} />)
+            }
             <Redirect to={Routes.DASHBOARD_PAGE} />
         </Switch>
     )
@@ -24,10 +26,11 @@ const PrivateRoute: React.FC<{ route: IRoute }> = (props) => {
     const auth = useSelector<IRootState>(store => store.authentication.authenticated)
 
     const { component, ...rest } = props.route
+    const Component = component
 
     return (
         <Route
-            render={() => auth ? component : (<Redirect to={Routes.DASHBOARD_PAGE} />)}
+            render={(props) => auth ? <Component {...props} /> : <Redirect to={Routes.DASHBOARD_PAGE} />}
             {...rest}
         />
     )

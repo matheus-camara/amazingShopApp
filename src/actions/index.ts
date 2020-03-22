@@ -11,6 +11,7 @@ export interface IPagination {
     skip: number
     take: number
     total: number
+    currentPage: number
 }
 
 export type ActionTypes = StoreActions | SagaActions
