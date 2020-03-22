@@ -1,5 +1,5 @@
 import * as React from "react"
-import { AppDrawer, ProductItem } from "../../components"
+import { ViewProduct } from "../"
 import { Container, Grid, TextField, makeStyles, Button } from "@material-ui/core"
 import { Save } from "@material-ui/icons"
 import { Product } from "../../../domain"
@@ -13,7 +13,13 @@ interface IAddProductProps {
 const useStyles = makeStyles({
     container: {
         display: "flex",
-        justifyContent: "center"
+        justifyContent: "center",
+        "& div:first-child": {
+            flex: 1
+        },
+        "& div:last-child": {
+            flex: 2
+        }
     },
     form: {
         display: "flex",
@@ -53,7 +59,7 @@ export const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => 
     const dispatch = useDispatch()
 
     return (
-        <AppDrawer>
+        <>
             <Container className={classes.container}>
                 <Grid container direction="column" alignItems="center">
 
@@ -69,15 +75,6 @@ export const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => 
                             id="name"
                             value={name}
                             onChange={(event) => setName(event.target.value)}
-                            onBlur={() => setPreview(createProduct())}
-                        />
-                        <TextField
-                            className={classes.input}
-                            label={localizer.get("description")}
-                            variant="outlined"
-                            id="description"
-                            value={description}
-                            onChange={(event) => setDescription(event.target.value)}
                             onBlur={() => setPreview(createProduct())}
                         />
                         <TextField
@@ -100,15 +97,22 @@ export const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => 
                             onChange={(event) => setImageUrl(event.target.value)}
                             onBlur={() => setPreview(createProduct())}
                         />
+                        <TextField
+                            className={classes.input}
+                            label={localizer.get("description")}
+                            variant="outlined"
+                            id="description"
+                            value={description}
+                            onChange={(event) => setDescription(event.target.value)}
+                            onBlur={() => setPreview(createProduct())}
+                        />
                     </form>
                 </Grid>
                 <Grid container direction="column" justify="center" alignItems="center">
                     <h1> {localizer.get("preview")} </h1>
-                    <div>
-                        <ProductItem
-                            product={previewProduct}
-                        />
-                    </div>
+                    <ViewProduct
+                        product={previewProduct}
+                    />
                 </Grid>
             </Container>
 
@@ -125,6 +129,6 @@ export const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => 
                     {localizer.get("save")}
                 </Button>
             </Container>
-        </AppDrawer>
+        </>
     )
 }

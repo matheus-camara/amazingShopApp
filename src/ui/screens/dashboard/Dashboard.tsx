@@ -1,5 +1,5 @@
 import React from "react"
-import { AppDrawer, ProductItem } from "../../components"
+import { ProductItem } from "../../components"
 import { Container, Grid, GridList, makeStyles, ButtonGroup, Button } from "@material-ui/core"
 import { Product } from "../../../domain"
 import { useSelector, useDispatch } from "react-redux"
@@ -62,7 +62,7 @@ export const Dashboard: React.FC<IDashboardProps> = (props: IDashboardProps) => 
     }
 
     return (
-        <AppDrawer>
+        <>
             <Container
                 maxWidth="xl"
             >
@@ -92,6 +92,6 @@ export const Dashboard: React.FC<IDashboardProps> = (props: IDashboardProps) => 
 
                 </Grid>
             </Container>
-        </AppDrawer>
+        </>
     )
 }

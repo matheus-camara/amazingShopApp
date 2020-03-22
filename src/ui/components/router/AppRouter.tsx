@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom"
 import { IRootState } from "../../../stores"
 import { useSelector } from "react-redux"
 import React from "react"
+import { AppDrawer } from "../drawer/Drawer"
 
 export const AppRouter: React.FC<{ routes: IRoute[] }> = (props) => {
 
@@ -32,7 +33,7 @@ const PrivateRoute: React.FC<{
 
     return (
         <Route
-            render={(props) => auth ? <Component key={props.match.url} {...props} /> : <Redirect to={Routes.DASHBOARD_PAGE} />}
+            render={(props) => auth ? <AppDrawer><Component key={props.match.url} {...props} /></AppDrawer> : <Redirect to={Routes.DASHBOARD_PAGE} />}
             {...rest}
         />
     )

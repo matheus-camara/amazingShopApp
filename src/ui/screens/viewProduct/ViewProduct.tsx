@@ -1,6 +1,6 @@
 import React from 'react'
-import { AppDrawer } from "../../components"
-import clsx from 'clsx';
+import clsx from 'clsx'
+import ReactMarkdown from "react-markdown"
 import { useParams, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { ProductSagaActions, ProductStoreActions } from "../../../actions"
@@ -80,27 +80,36 @@ const useStyles = makeStyles({
     }
 })
 
-export const ViewProduct: React.FC = () => {
+interface IViewProductProps {
+    product?: Product
+}
 
-    const { id } = useParams<{ id: string }>()
-    const [quantity, setQuantity] = React.useState("0")
+export const ViewProduct: React.FC<IViewProductProps> = (props) => {
+
+    const { id } = useParams<{ id?: string }>()
     const dispatch = useDispatch()
-    const { enqueueSnackbar } = useSnackbar()
-    const localizer = useStringLocalizer()
-    const history = useHistory()
-    const classes = useStyles()
-    const product = useSelector<IRootState>(state => state.product.selected) as Product
 
     React.useEffect(() => {
         const loadData = () => {
-            dispatch({
-                type: ProductSagaActions.GetDetailed,
-                payload: Number.parseInt(id)
-            })
+            if (id) {
+                dispatch({
+                    type: ProductSagaActions.GetDetailed,
+                    payload: Number.parseInt(id)
+                })
+            }
         }
 
         loadData();
     }, [id, dispatch])
+
+    const [quantity, setQuantity] = React.useState("0")
+    const { enqueueSnackbar } = useSnackbar()
+    const localizer = useStringLocalizer()
+    const history = useHistory()
+    const classes = useStyles()
+    const actionsDisabled = !!props.product
+    let product = useSelector<IRootState>(state => state.product.selected) as Product
+    product = props.product ? props.product : product
 
     const addToCart = () => dispatch({
         type: ProductStoreActions.AddToCart,
@@ -131,7 +140,7 @@ export const ViewProduct: React.FC = () => {
     }
 
     return (
-        <AppDrawer>
+        <>
             <Container maxWidth="lg" className={classes.container}>
                 <List component="nav" >
                     <ListItem alignItems="center" className={classes.listItem}>
@@ -161,7 +170,8 @@ export const ViewProduct: React.FC = () => {
                     <Divider variant="fullWidth" />
                     <ListItem alignItems="center" className={classes.listItem}>
                         <Typography className={classes.description}>
-                            {product?.description}
+                            <ReactMarkdown source={product?.description}>
+                            </ReactMarkdown>
                         </Typography>
                     </ListItem>
                     <Divider variant="inset" />
@@ -185,7 +195,7 @@ export const ViewProduct: React.FC = () => {
                         classes.listItem,
                         classes.price
                     )}>
-                        <IconButton onClick={() => setQuantity(+quantity === 0 ? quantity : `${+quantity - 1}`)}>
+                        <IconButton onClick={() => setQuantity(+quantity === 0 ? quantity : `${+quantity - 1}`)} disabled={actionsDisabled}>
                             <ChevronLeft />
                         </IconButton>
                         <TextField
@@ -197,7 +207,7 @@ export const ViewProduct: React.FC = () => {
                             size="small"
                             className={classes.quantityInput}
                         />
-                        <IconButton onClick={() => setQuantity(`${+quantity + 1}`)}>
+                        <IconButton onClick={() => setQuantity(`${+quantity + 1}`)} disabled={actionsDisabled}>
                             <ChevronRight />
                         </IconButton>
                         <Paper elevation={2} variant="outlined" className={classes.totalPrice}>
@@ -214,6 +224,7 @@ export const ViewProduct: React.FC = () => {
                     </ListItem>
                     <ListItem>
                         <Button
+                            disabled={actionsDisabled}
                             className={classes.button}
                             variant="contained"
                             color="default"
@@ -223,15 +234,17 @@ export const ViewProduct: React.FC = () => {
                             {localizer.get("addToCart")}
                         </Button>
                         <Button
+                            disabled={actionsDisabled}
                             className={classes.button}
                             color="primary"
                             variant="contained"
-                            onClick={() => history.push(Routes.EDIT_PRODUCT_PAGE.replace(":id", id))}
+                            onClick={() => id ? history.push(Routes.EDIT_PRODUCT_PAGE.replace(":id", id)) : null}
                             startIcon={<Edit />}
                         >
                             {localizer.get("edit")}
                         </Button>
                         <Button
+                            disabled={actionsDisabled}
                             className={classes.button}
                             color="secondary"
                             variant="contained"
@@ -243,6 +256,6 @@ export const ViewProduct: React.FC = () => {
                     </ListItem>
                 </List>
             </Container>
-        </AppDrawer>
+        </>
     )
 }
