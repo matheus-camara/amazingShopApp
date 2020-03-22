@@ -29,7 +29,13 @@ export const app_routes: IRoute[] = [
     {
         path: Routes.VIEW_PRODUCT_PAGE,
         component: ViewProduct,
-        exact: false,
-        isPrivate: false
+        exact: true,
+        isPrivate: true
+    },
+    {
+        path: Routes.EDIT_PRODUCT_PAGE,
+        component: ViewProduct,
+        exact: true,
+        isPrivate: true
     }
 ]

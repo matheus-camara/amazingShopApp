@@ -69,6 +69,9 @@ const useStyles = makeStyles({
             textAlign: "center"
         }
     },
+    button: {
+        marginRight: 5
+    },
     buttonEdit: {
         backgroundColor: "green"
     },
@@ -83,6 +86,10 @@ export const ViewProduct: React.FC = () => {
     const [quantity, setQuantity] = React.useState("0")
     const dispatch = useDispatch()
     const { enqueueSnackbar } = useSnackbar()
+    const localizer = useStringLocalizer()
+    const history = useHistory()
+    const classes = useStyles()
+    const product = useSelector<IRootState>(state => state.product.selected) as Product
 
     React.useEffect(() => {
         const loadData = () => {
@@ -94,11 +101,6 @@ export const ViewProduct: React.FC = () => {
 
         loadData();
     }, [id, dispatch])
-
-    const localizer = useStringLocalizer()
-    const history = useHistory()
-    const classes = useStyles()
-    const product = useSelector<IRootState>(state => state.product.selected) as Product
 
     const addToCart = () => dispatch({
         type: ProductStoreActions.AddToCart,
@@ -116,13 +118,13 @@ export const ViewProduct: React.FC = () => {
         })
 
         const undoDeleteAction = () => (
-            <Button onClick={deleteAction}>
+            <Button onClick={deleteAction} variant="contained" color="secondary">
                 {localizer.get("yes")}
             </Button>
         );
 
         enqueueSnackbar(localizer.get("areYouSure"), {
-            variant: "warning",
+            variant: "info",
             autoHideDuration: 3000,
             action: undoDeleteAction,
         });
@@ -212,23 +214,31 @@ export const ViewProduct: React.FC = () => {
                     </ListItem>
                     <ListItem>
                         <Button
+                            className={classes.button}
+                            variant="contained"
+                            color="default"
                             onClick={addToCart}
-                            startIcon={AddShoppingCart}
+                            startIcon={<AddShoppingCart />}
                         >
                             {localizer.get("addToCart")}
                         </Button>
                         <Button
-                            className={classes.buttonEdit}
+                            className={classes.button}
+                            color="primary"
+                            variant="contained"
                             onClick={() => history.push(Routes.EDIT_PRODUCT_PAGE.replace(":id", id))}
-                            startIcon={Edit}
+                            startIcon={<Edit />}
                         >
                             {localizer.get("edit")}
                         </Button>
                         <Button
-                            className={classes.buttonDelete}
+                            className={classes.button}
+                            color="secondary"
+                            variant="contained"
                             onClick={deleteProduct}
-                            startIcon={Delete}
+                            startIcon={<Delete />}
                         >
+                            {localizer.get("delete")}
                         </Button>
                     </ListItem>
                 </List>
