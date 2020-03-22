@@ -1,39 +1,35 @@
-import axios, { AxiosRequestConfig } from "axios"
+import axios from "axios"
 import { IPagedResult } from "."
 
 export class WebService {
     private _baseUrl: string
-    private _token?: string | undefined
 
-    constructor({ baseUrl, token }: { baseUrl: string, token?: string }) {
+    constructor({ baseUrl }: { baseUrl: string }) {
         this._baseUrl = process.env.REACT_APP_API_HTTP + baseUrl
-        this._token = token
-    }
-
-    private _createHeader(): AxiosRequestConfig {
-        const headers = {
-            headers: {
-                "Content-type": "application/json"
-            }
-        }
-
-        return !this._token ? headers : Object.assign(headers, {
-            Authorization: `Bearer ${this._token}`,
-        })
     }
 
     async getPaged<T>(skip = 0, take = 0): Promise<IPagedResult<T>> {
-        const { data } = await axios.get<IPagedResult<T>>(`${this._baseUrl}/${skip}/${take}`, this._createHeader())
+        const { data } = await axios.get<IPagedResult<T>>(`${this._baseUrl}/${skip}/${take}`)
         return data
     }
 
     async find<T>(id: number) {
-        const { data } = await axios.get<T>(`${this._baseUrl}/${id}`, this._createHeader())
+        const { data } = await axios.get<T>(`${this._baseUrl}/${id}`)
         return data
     }
 
     async save<T>(entity: T) {
-        const { data } = await axios.post(this._baseUrl, entity, this._createHeader())
+        const { data } = await axios.post(this._baseUrl, entity)
+        return data
+    }
+
+    async update<T>(id: number, entity: T) {
+        const { data } = await axios.put(`${this._baseUrl}/${id}`, entity)
+        return data
+    }
+
+    async delete(id: number) {
+        const { data } = await axios.delete(`${this._baseUrl}/${id}`)
         return data
     }
 }

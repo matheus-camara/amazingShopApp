@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { createStyles, makeStyles, useTheme, Theme } from '@material-ui/core/styles';
 import { Appbar } from "..";
-import { CssBaseline, IconButton, Drawer, Divider, List, ListItem, ListItemIcon, Typography, ListItemText } from '@material-ui/core';
+import { CssBaseline, IconButton, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -144,9 +144,7 @@ export const AppDrawer: React.FC = (props) => {
                             <HomeOutlined />
                         </ListItemIcon>
                         <ListItemText>
-                            <Typography autoCapitalize="true" align="justify" >
-                                {stringLocalizer.get("dashboard")}
-                            </Typography>
+                            {stringLocalizer.get("dashboard")}
                         </ListItemText>
                     </ListItem>
                     <ListItem alignItems="center" button onClick={() => history.push(Routes.ADD_PRODUCT_PAGE, { drawerOpen: open })}>

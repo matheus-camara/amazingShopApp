@@ -23,20 +23,23 @@ interface IDashboardProps { }
 const itemsPerPage = 20
 export const Dashboard: React.FC<IDashboardProps> = (props: IDashboardProps) => {
     const styles = useStyles();
-    const [page, setPage] = React.useState(0)
     const productStore = useSelector<IRootState>(s => s.product) as IProductStoreState
+    const [page, setPage] = React.useState(productStore?.currentPage ?? 0)
     const dispatch = useDispatch()
     const localizer = useStringLocalizer()
     const totalPaginas = Math.floor((productStore?.total / itemsPerPage))
 
     React.useEffect(() => {
-        const loadData = () => dispatch({
-            type: ProductSagaActions.GetAll,
-            pagination: {
-                skip: page * itemsPerPage,
-                take: itemsPerPage
-            }
-        })
+        const loadData = () => {
+            dispatch({
+                type: ProductSagaActions.GetAll,
+                pagination: {
+                    skip: page * itemsPerPage,
+                    take: itemsPerPage,
+                    currentPage: page
+                }
+            })
+        }
 
         loadData()
     }, [page, dispatch])

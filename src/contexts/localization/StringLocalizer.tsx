@@ -21,7 +21,7 @@ class StringLocalizer implements IStringLocalizer {
     }
 
     get(toLocalize: string): string {
-        const found: LocalizedString = this._resources[toLocalize]
+        const found: LocalizedString | undefined = this._resources[toLocalize]
 
         switch (this._selectedLanguage) {
             case SupportedLanguages.enUS:
