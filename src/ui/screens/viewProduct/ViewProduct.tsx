@@ -200,7 +200,6 @@ export const ViewProduct: React.FC<IViewProductProps> = (props) => {
                         </IconButton>
                         <TextField
                             inputMode="numeric"
-                            defaultValue={quantity}
                             value={quantity}
                             onChange={(e) => setQuantity(e.target.value)}
                             fullWidth={false}

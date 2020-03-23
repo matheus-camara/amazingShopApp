@@ -89,7 +89,6 @@ export const Dashboard: React.FC<IDashboardProps> = (props: IDashboardProps) => 
                         </Button>
                         <Button onClick={getNextPage} disabled={page + 1 === totalPaginas}>{localizer.get("next")}</Button>
                     </ButtonGroup>
-
                 </Grid>
             </Container>
         </>

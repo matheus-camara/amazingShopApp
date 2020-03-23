@@ -29,7 +29,6 @@ function* watchGetProductsSaga() {
 }
 
 function* getSingleProductSaga(action: IAction<number>) {
-    debugger
     try {
         const response = yield webService.find<Product>(action.payload ?? 0)
 

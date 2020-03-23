@@ -1,11 +1,12 @@
 import * as React from "react"
 import { ViewProduct } from "../"
-import { Container, Grid, TextField, makeStyles, Button } from "@material-ui/core"
+import { Container, Grid, TextField, makeStyles, Button, TextareaAutosize } from "@material-ui/core"
 import { Save } from "@material-ui/icons"
 import { Product } from "../../../domain"
 import { useStringLocalizer } from "../../../contexts/localization"
 import { ProductSagaActions } from "../../../actions"
 import { useDispatch } from "react-redux"
+import ReactMarkdown from "react-markdown"
 
 interface IAddProductProps {
 }
@@ -18,7 +19,7 @@ const useStyles = makeStyles({
             flex: 1
         },
         "& div:last-child": {
-            flex: 2
+            flex: 3
         }
     },
     form: {
@@ -33,6 +34,9 @@ const useStyles = makeStyles({
     button: {
         margin: 5,
     },
+    descriptionArea: {
+        width: "100%"
+    }
 })
 
 export const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => {
@@ -62,11 +66,9 @@ export const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => 
         <>
             <Container className={classes.container}>
                 <Grid container direction="column" alignItems="center">
-
                     <h1>
                         {localizer.get("addNewProduct")}
                     </h1>
-
                     <form className={classes.form}>
                         <TextField
                             className={classes.input}
@@ -106,6 +108,17 @@ export const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => 
                             onChange={(event) => setDescription(event.target.value)}
                             onBlur={() => setPreview(createProduct())}
                         />
+                        <TextareaAutosize
+                            id="description"
+                            className={classes.descriptionArea}
+                            rowsMin={5}
+                            value={description}
+                            onChange={(event) => setDescription(event.target.value)}
+                            onBlur={() => setPreview(createProduct())}
+                        >
+                            <ReactMarkdown>
+                            </ReactMarkdown>
+                        </TextareaAutosize>
                     </form>
                 </Grid>
                 <Grid container direction="column" justify="center" alignItems="center">
@@ -124,7 +137,10 @@ export const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => 
                     className={classes.button}
                     disabled={!validateForm()}
                     startIcon={<Save />}
-                    onClick={() => dispatch({ type: ProductSagaActions.Add })}
+                    onClick={() => dispatch({
+                        type: ProductSagaActions.Add,
+                        payload: createProduct()
+                    })}
                 >
                     {localizer.get("save")}
                 </Button>
