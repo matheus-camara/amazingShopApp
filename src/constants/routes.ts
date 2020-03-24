@@ -34,7 +34,7 @@ export const app_routes: IRoute[] = [
     },
     {
         path: Routes.EDIT_PRODUCT_PAGE,
-        component: ViewProduct,
+        component: AddProduct,
         exact: true,
         isPrivate: true
     }

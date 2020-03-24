@@ -1,12 +1,13 @@
 import * as React from "react"
 import { ViewProduct } from "../"
-import { Container, Grid, TextField, makeStyles, Button, TextareaAutosize } from "@material-ui/core"
-import { Save } from "@material-ui/icons"
+import { Container, Grid, TextField, makeStyles, Button, Tooltip } from "@material-ui/core"
+import { Save, InfoOutlined } from "@material-ui/icons"
 import { Product } from "../../../domain"
 import { useStringLocalizer } from "../../../contexts/localization"
 import { ProductSagaActions } from "../../../actions"
-import { useDispatch } from "react-redux"
-import ReactMarkdown from "react-markdown"
+import { useDispatch, useSelector } from "react-redux"
+import { useParams } from "react-router-dom"
+import { IRootState } from "../../../stores"
 
 interface IAddProductProps {
 }
@@ -36,20 +37,41 @@ const useStyles = makeStyles({
     },
     descriptionArea: {
         width: "100%"
+    },
+    previewTitle: {
+        marginRight: 8
     }
 })
 
 export const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => {
 
-    const [name, setName] = React.useState("")
-    const [description, setDescription] = React.useState("")
-    const [imageUrl, setImageUrl] = React.useState("")
-    const [price, setPrice] = React.useState("")
+    const { id } = useParams<{ id?: string }>()
+    const dispatch = useDispatch()
+
+    React.useEffect(() => {
+        const loadData = () => {
+            if (id) {
+                dispatch({
+                    type: ProductSagaActions.GetDetailed,
+                    payload: Number.parseInt(id)
+                })
+            }
+        }
+
+        loadData();
+    }, [id, dispatch])
+
+    const productEdit = useSelector<IRootState>(x => x.product.selected) as Product | null
+
+    const [name, setName] = React.useState(id ? productEdit?.name ?? "" : "")
+    const [description, setDescription] = React.useState(id ? productEdit?.description ?? "" : "")
+    const [imageUrl, setImageUrl] = React.useState(id ? productEdit?.imageUrl ?? "" : "")
+    const [price, setPrice] = React.useState(id ? productEdit?.price?.toString() ?? "" : "")
 
     const validatePriceInput = (val: string) => val?.length === 0 || (!!val && !isNaN(+val) && isFinite(+val))
     const validateForm = () => !!name && !!description && !!imageUrl && validatePriceInput(price)
     const createProduct = () => new Product({
-        id: 0,
+        id: id ? Number.parseInt(id) : null ?? 0,
         name: name,
         description: description,
         imageUrl: imageUrl,
@@ -60,14 +82,13 @@ export const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => 
 
     const classes = useStyles()
     const localizer = useStringLocalizer()
-    const dispatch = useDispatch()
 
     return (
         <>
             <Container className={classes.container}>
                 <Grid container direction="column" alignItems="center">
                     <h1>
-                        {localizer.get("addNewProduct")}
+                        {localizer.get(id ? "addNewProduct" : "editProduct")}
                     </h1>
                     <form className={classes.form}>
                         <TextField
@@ -99,30 +120,31 @@ export const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => 
                             onChange={(event) => setImageUrl(event.target.value)}
                             onBlur={() => setPreview(createProduct())}
                         />
-                        <TextField
-                            className={classes.input}
-                            label={localizer.get("description")}
-                            variant="outlined"
-                            id="description"
-                            value={description}
-                            onChange={(event) => setDescription(event.target.value)}
-                            onBlur={() => setPreview(createProduct())}
-                        />
-                        <TextareaAutosize
-                            id="description"
-                            className={classes.descriptionArea}
-                            rowsMin={5}
-                            value={description}
-                            onChange={(event) => setDescription(event.target.value)}
-                            onBlur={() => setPreview(createProduct())}
-                        >
-                            <ReactMarkdown>
-                            </ReactMarkdown>
-                        </TextareaAutosize>
+                        <Grid container alignItems="center" justify="center">
+                            <TextField
+                                className={classes.input}
+                                label={localizer.get("description")}
+                                variant="outlined"
+                                id="description"
+                                value={description}
+                                onChange={(event) => setDescription(event.target.value)}
+                                onBlur={() => setPreview(createProduct())}
+                                multiline={true}
+                                rows={4}
+                            />
+                            <Tooltip title={localizer.get("supportsMarkdown")} arrow placement="right">
+                                <InfoOutlined />
+                            </Tooltip>
+                        </Grid>
                     </form>
                 </Grid>
                 <Grid container direction="column" justify="center" alignItems="center">
-                    <h1> {localizer.get("preview")} </h1>
+                    <Grid container justify="center" alignItems="center">
+                        <h1 className={classes.previewTitle}> {localizer.get("preview")} </h1>
+                        <Tooltip title={localizer.get("previewSubjectToChange")} arrow placement="right">
+                            <InfoOutlined />
+                        </Tooltip>
+                    </Grid>
                     <ViewProduct
                         product={previewProduct}
                     />
@@ -138,7 +160,7 @@ export const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => 
                     disabled={!validateForm()}
                     startIcon={<Save />}
                     onClick={() => dispatch({
-                        type: ProductSagaActions.Add,
+                        type: id ? ProductSagaActions.Edit : ProductSagaActions.Add,
                         payload: createProduct()
                     })}
                 >

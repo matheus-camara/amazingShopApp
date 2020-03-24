@@ -1,6 +1,5 @@
 import React from 'react'
 import clsx from 'clsx'
-import ReactMarkdown from "react-markdown"
 import { useParams, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { ProductSagaActions, ProductStoreActions } from "../../../actions"
@@ -10,8 +9,9 @@ import { Typography, Divider, Container, makeStyles, CardMedia, Card, CardConten
 import { AddShoppingCart, AttachMoneyOutlined, ChevronLeft, ChevronRight, Edit, Delete } from "@material-ui/icons"
 import { useSnackbar } from "notistack"
 import { blankImage } from '../../../static/images'
-import { useStringLocalizer } from '../../../contexts';
-import { Routes } from '../../../constants/routes';
+import { useStringLocalizer } from '../../../contexts'
+import { Routes } from '../../../constants/routes'
+import { Markdown } from "../../components"
 
 const useStyles = makeStyles({
     container: {
@@ -22,7 +22,10 @@ const useStyles = makeStyles({
     },
     imageContainer: {
         maxHeight: "40%",
-        maxWidth: "60%"
+        width: "60%",
+    },
+    list: {
+        minWidth: "60%"
     },
     listItem: {
         justifyContent: "center"
@@ -41,7 +44,6 @@ const useStyles = makeStyles({
     },
     totalPrice: {
         padding: 8,
-        width: "15%",
         display: "flex",
         '& div:first-child': {
             flex: 1,
@@ -103,13 +105,14 @@ export const ViewProduct: React.FC<IViewProductProps> = (props) => {
     }, [id, dispatch])
 
     const [quantity, setQuantity] = React.useState("0")
-    const { enqueueSnackbar } = useSnackbar()
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar()
     const localizer = useStringLocalizer()
     const history = useHistory()
     const classes = useStyles()
     const actionsDisabled = !!props.product
     let product = useSelector<IRootState>(state => state.product.selected) as Product
     product = props.product ? props.product : product
+    const [image, setImage] = React.useState(product?.imageUrl === "" ? blankImage : product?.imageUrl)
 
     const addToCart = () => dispatch({
         type: ProductStoreActions.AddToCart,
@@ -121,36 +124,45 @@ export const ViewProduct: React.FC<IViewProductProps> = (props) => {
 
     const deleteProduct = () => {
 
-        const deleteAction = () => dispatch({
-            type: ProductSagaActions.Delete,
-            payload: product.id
-        })
+        const deleteAction = (key: any) => {
+            dispatch({
+                type: ProductSagaActions.Delete,
+                payload: product.id
+            })
+            closeSnackbar(key)
+        }
 
-        const undoDeleteAction = () => (
-            <Button onClick={deleteAction} variant="contained" color="secondary">
-                {localizer.get("yes")}
-            </Button>
+        const confirmDeleteAction = (key: any) => (
+            <>
+                <Button onClick={() => deleteAction(key)} variant="contained" color="secondary" className={classes.button}>
+                    {localizer.get("yes")}
+                </Button>
+                <Button onClick={() => closeSnackbar(key)} variant="contained" color="secondary">
+                    {localizer.get("no")}
+                </Button>
+            </>
         );
 
         enqueueSnackbar(localizer.get("areYouSure"), {
             variant: "info",
             autoHideDuration: 3000,
-            action: undoDeleteAction,
+            action: (key) => confirmDeleteAction(key),
         });
     }
 
     return (
         <>
             <Container maxWidth="lg" className={classes.container}>
-                <List component="nav" >
+                <List component="nav" className={classes.list}>
                     <ListItem alignItems="center" className={classes.listItem}>
                         <Card className={classes.imageContainer}>
                             <CardContent>
                                 <CardMedia
                                     height={400}
+                                    onError={() => setImage(blankImage)}
                                     component="img"
                                     alt="Image of product"
-                                    image={product?.imageUrl === "" ? blankImage : product?.imageUrl}
+                                    image={image}
                                     title="product image"
                                 />
                             </CardContent>
@@ -169,10 +181,9 @@ export const ViewProduct: React.FC<IViewProductProps> = (props) => {
                     </ListItem>
                     <Divider variant="fullWidth" />
                     <ListItem alignItems="center" className={classes.listItem}>
-                        <Typography className={classes.description}>
-                            <ReactMarkdown source={product?.description}>
-                            </ReactMarkdown>
-                        </Typography>
+                        <Markdown className={classes.description} key={product?.description.substring(0, 20)}>
+                            {product?.description ?? ""}
+                        </Markdown>
                     </ListItem>
                     <Divider variant="inset" />
                     <ListItem className={clsx(

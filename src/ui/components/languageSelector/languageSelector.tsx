@@ -1,8 +1,8 @@
 import React from "react"
-import { makeStyles, Theme, createStyles, MenuItem, Menu } from "@material-ui/core"
+import { makeStyles, Theme, createStyles, MenuItem, Menu, Tooltip } from "@material-ui/core"
 import { LanguageOutlined } from "@material-ui/icons"
 import { Brasil_flag, Eua_flag } from "../../../static/images"
-import { useSetLanguage, SupportedLanguages } from "../../../contexts"
+import { useSetLanguage, SupportedLanguages, useStringLocalizer } from "../../../contexts"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     menuWrapper: {
@@ -35,6 +35,7 @@ export const LanguageSelector: React.FC<any> = (props) => {
     const classes = useStyles()
     const [anchorEl, setAnchorEl] = React.useState<null | SVGElement | unknown>(null)
     const setLanguage = useSetLanguage()
+    const stringLocalizer = useStringLocalizer()
 
     return (
         <div className={classes.menuWrapper}>
@@ -64,10 +65,12 @@ export const LanguageSelector: React.FC<any> = (props) => {
                     />
                 </MenuItem>
             </Menu>
-            <LanguageOutlined
-                className={classes.icon}
-                onClick={(event) => setAnchorEl(event.target)}
-            />
+            <Tooltip title={stringLocalizer.get("languageSelection")} arrow placement="right">
+                <LanguageOutlined
+                    className={classes.icon}
+                    onClick={(event) => setAnchorEl(event.target)}
+                />
+            </Tooltip>
         </div>
     )
 }

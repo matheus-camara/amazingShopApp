@@ -29,6 +29,10 @@ export const resources: LocalizedSet = {
         enUS: "Adding a new product",
         ptBR: "Adicionando um novo produto"
     },
+    editProduct: {
+        enUS: "Editing product",
+        ptBR: "Editando produto"
+    },
     profile: {
         enUS: "Profile",
         ptBR: "Perfil"
@@ -94,11 +98,31 @@ export const resources: LocalizedSet = {
         ptBR: "Editar"
     },
     yes: {
-        enUS: "yes",
+        enUS: "Yes",
         ptBR: "Sim"
+    },
+    no: {
+        enUS: "No",
+        ptBR: "Não"
+    },
+    delete: {
+        enUS: "Delete",
+        ptBR: "Excluir"
     },
     areYouSure: {
         enUS: "Are you sure?",
         ptBR: "Você tem certeza?"
+    },
+    supportsMarkdown: {
+        enUS: "Field has Markdown support",
+        ptBR: "Campo com suporte a 'Markdown'"
+    },
+    previewSubjectToChange: {
+        enUS: "This preview can differ from finalized view",
+        ptBR: "Esta pré-visualização pode ser diferente da visualização final"
+    },
+    languageSelection: {
+        enUS: "Language selection",
+        ptBR: "Seleção de idioma"
     }
 }

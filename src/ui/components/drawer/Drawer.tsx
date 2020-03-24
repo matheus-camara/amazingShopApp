@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { createStyles, makeStyles, useTheme, Theme } from '@material-ui/core/styles';
 import { Appbar } from "..";
-import { CssBaseline, IconButton, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { CssBaseline, IconButton, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText, Tooltip } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -141,7 +141,9 @@ export const AppDrawer: React.FC = (props) => {
                 <List>
                     <ListItem alignItems="center" button onClick={() => history.push(Routes.DASHBOARD_PAGE, { drawerOpen: open })}>
                         <ListItemIcon >
-                            <HomeOutlined />
+                            <Tooltip title={stringLocalizer.get("dashboard")} arrow placement="right">
+                                <HomeOutlined />
+                            </Tooltip>
                         </ListItemIcon>
                         <ListItemText>
                             {stringLocalizer.get("dashboard")}
@@ -149,7 +151,9 @@ export const AppDrawer: React.FC = (props) => {
                     </ListItem>
                     <ListItem alignItems="center" button onClick={() => history.push(Routes.ADD_PRODUCT_PAGE, { drawerOpen: open })}>
                         <ListItemIcon>
-                            <AddBoxOutlinedIcon />
+                            <Tooltip title={stringLocalizer.get("addProduct")} arrow placement="right">
+                                <AddBoxOutlinedIcon />
+                            </Tooltip>
                         </ListItemIcon>
                         <ListItemText>
                             {stringLocalizer.get("addProduct")}

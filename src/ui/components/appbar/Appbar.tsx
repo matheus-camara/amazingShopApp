@@ -9,6 +9,7 @@ interface IAppbarProps {
 }
 
 export const Appbar: React.FC<IAppbarProps> = (props) => {
+
     return (
         <div>
             <AppBar position={props.position} className={props.className}>

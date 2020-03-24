@@ -27,7 +27,7 @@ export const Dashboard: React.FC<IDashboardProps> = (props: IDashboardProps) => 
     const [page, setPage] = React.useState(productStore?.currentPage ?? 0)
     const dispatch = useDispatch()
     const localizer = useStringLocalizer()
-    const totalPaginas = Math.floor((productStore?.total / itemsPerPage))
+    const totalPaginas = Math.max(Math.floor((productStore?.total ?? 1 / itemsPerPage)), 1)
 
     React.useEffect(() => {
         const loadData = () => {
