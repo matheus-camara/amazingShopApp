@@ -1,18 +1,10 @@
 import React from "react"
-import { makeStyles, Theme, createStyles, MenuItem, Menu, Tooltip } from "@material-ui/core"
+import { makeStyles, Theme, createStyles, MenuItem, Menu, Tooltip, IconButton } from "@material-ui/core"
 import { LanguageOutlined } from "@material-ui/icons"
 import { Brasil_flag, Eua_flag } from "../../../static/images"
 import { useSetLanguage, SupportedLanguages, useStringLocalizer } from "../../../contexts"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
-    menuWrapper: {
-        height: 60,
-        width: 60,
-        display: "flex",
-        cursor: "pointer",
-        justifyContent: "center",
-        alignItems: "center"
-    },
     flagIcon: {
         height: "100%"
     },
@@ -38,7 +30,7 @@ export const LanguageSelector: React.FC<any> = (props) => {
     const stringLocalizer = useStringLocalizer()
 
     return (
-        <div className={classes.menuWrapper}>
+        <IconButton>
             <Menu
                 open={Boolean(anchorEl)}
                 anchorEl={anchorEl as Element}
@@ -71,6 +63,6 @@ export const LanguageSelector: React.FC<any> = (props) => {
                     onClick={(event) => setAnchorEl(event.target)}
                 />
             </Tooltip>
-        </div>
+        </IconButton>
     )
 }

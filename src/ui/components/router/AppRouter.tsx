@@ -14,10 +14,12 @@ export const AppRouter: React.FC<{ routes: IRoute[] }> = (props) => {
     return (
         <Switch>
             {
-                routes.map((route) =>
+                routes.map(route =>
                     route.isPrivate
-                        ? <PrivateRoute key={route.path} path={route.path} Component={route.component} exact={route.exact} />
-                        : <Route key={route.path} path={route.path} render={(props) => withDrawer(props, route.component)} exact={route.exact} />)
+                        ? <PrivateRoute key={route.path} path={route.path} Component={route.component} exact={route.exact} withDrawer={route.withDrawer} />
+                        : <Route key={route.path} path={route.path} exact={route.exact} render={
+                            (props) => !!route.withDrawer ? withDrawer(props, route.component) : <route.component {...props}> </route.component>
+                        } />)
             }
             <Redirect to={Routes.DASHBOARD_PAGE} />
         </Switch>
@@ -27,15 +29,24 @@ export const AppRouter: React.FC<{ routes: IRoute[] }> = (props) => {
 const PrivateRoute: React.FC<{
     path: Routes,
     Component: React.FC<any>,
-    exact?: boolean
+    exact?: boolean,
+    withDrawer?: boolean
 }> = (props) => {
 
-    const auth = useSelector<IRootState>(store => store.authentication.authenticated) as boolean
     const { Component, ...rest } = props
+    const auth = useSelector<IRootState>(store => store.authentication.authenticated) as boolean
+
+    const renderComponent = (props: any) => {
+        if (!auth) {
+            return <Redirect to={Routes.DASHBOARD_PAGE} />
+        }
+
+        return !!rest.withDrawer ? withDrawer(props, Component) : <Component {...props} key={props.match.url} />
+    }
 
     return (
         <Route
-            render={(props) => auth ? withDrawer(props, Component) : <Redirect to={Routes.DASHBOARD_PAGE} />}
+            render={renderComponent}
             {...rest}
         />
     )

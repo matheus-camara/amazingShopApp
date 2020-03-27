@@ -124,5 +124,17 @@ export const resources: LocalizedSet = {
     languageSelection: {
         enUS: "Language selection",
         ptBR: "Seleção de idioma"
-    }
+    },
+    register: {
+        enUS: "Register",
+        ptBR: "Criar conta"
+    },
+    createAccount: {
+        enUS: "Dont have a account yet? create one!",
+        ptBR: "Ainda não possui uma conta? crie uma!"
+    },
+    alreadyHaveAccount: {
+        enUS: "Already have a account? log in!",
+        ptBR: "Já tem uma conta? faça o login!"
+    },
 }

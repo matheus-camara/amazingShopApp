@@ -1,4 +1,4 @@
-import { IAction } from "../../actions"
+import { IAction, UserStoreActions } from "../../actions"
 
 export interface IAuthenticationState {
     token: string,
@@ -7,11 +7,21 @@ export interface IAuthenticationState {
 
 const AuthenticationInitialState: IAuthenticationState = {
     token: "",
-    authenticated: true
+    authenticated: false
 }
 
 export const AuthenticationStore = (state = AuthenticationInitialState, action: IAction<null>) => {
     switch (action.type) {
+        case UserStoreActions.Login:
+            return Object.assign({}, state, {
+                token: action.payload,
+                authenticated: !!action.payload
+            })
+        case UserStoreActions.Logout:
+            return Object.assign({}, state, {
+                token: "",
+                authenticated: false
+            })
         default:
             return state
     }

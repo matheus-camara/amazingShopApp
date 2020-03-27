@@ -1,4 +1,7 @@
 import { ProductStoreActions } from "./products"
+import { UserStoreActions } from "./users"
 
 export * from "./products"
-export type StoreActions = ProductStoreActions
+export * from "./users"
+
+export type StoreActions = ProductStoreActions | UserStoreActions

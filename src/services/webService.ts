@@ -18,6 +18,16 @@ export class WebService {
         return data
     }
 
+    async post<T>(entity: T, resource: string) {
+        const { data } = await axios.post(`${this._baseUrl}/${resource}`, entity)
+        return data
+    }
+
+    async delete(id: number) {
+        const { data } = await axios.delete(`${this._baseUrl}/${id}`)
+        return data
+    }
+
     async save<T>(entity: T) {
         const { data } = await axios.post(this._baseUrl, entity)
         return data
@@ -25,11 +35,6 @@ export class WebService {
 
     async update<T>(id: number, entity: T) {
         const { data } = await axios.put(`${this._baseUrl}/${id}`, entity)
-        return data
-    }
-
-    async delete(id: number) {
-        const { data } = await axios.delete(`${this._baseUrl}/${id}`)
         return data
     }
 }

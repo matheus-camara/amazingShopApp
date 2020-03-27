@@ -11,7 +11,7 @@ import { useSnackbar } from "notistack"
 import { blankImage } from '../../../static/images'
 import { useStringLocalizer } from '../../../contexts'
 import { Routes } from '../../../constants/routes'
-import { Markdown } from "../../components"
+import { Markdown, Spacer } from "../../components"
 
 const useStyles = makeStyles({
     container: {
@@ -110,9 +110,16 @@ export const ViewProduct: React.FC<IViewProductProps> = (props) => {
     const history = useHistory()
     const classes = useStyles()
     const actionsDisabled = !!props.product
-    let product = useSelector<IRootState>(state => state.product.selected) as Product
+
+    const { authenticated, ...state } = useSelector<IRootState>(state => {
+        return {
+            product: state.product.selected,
+            authenticated: state.authentication.authenticated
+        }
+    }) as { product: Product, authenticated: boolean }
+
+    let { product } = state
     product = props.product ? props.product : product
-    const [image, setImage] = React.useState(product?.imageUrl === "" ? blankImage : product?.imageUrl)
 
     const addToCart = () => dispatch({
         type: ProductStoreActions.AddToCart,
@@ -158,11 +165,10 @@ export const ViewProduct: React.FC<IViewProductProps> = (props) => {
                         <Card className={classes.imageContainer}>
                             <CardContent>
                                 <CardMedia
-                                    height={400}
-                                    onError={() => setImage(blankImage)}
                                     component="img"
                                     alt="Image of product"
-                                    image={image}
+                                    height={400}
+                                    image={(product?.imageUrl ?? "") === "" ? blankImage : product?.imageUrl}
                                     title="product image"
                                 />
                             </CardContent>
@@ -173,7 +179,8 @@ export const ViewProduct: React.FC<IViewProductProps> = (props) => {
                             {product?.name}
                         </Typography>
                     </ListItem>
-                    <Divider variant="inset" />
+                    <Divider variant="fullWidth" />
+                    <Spacer height={40} />
                     <ListItem>
                         <Typography>
                             {localizer.get("description")}
@@ -185,7 +192,7 @@ export const ViewProduct: React.FC<IViewProductProps> = (props) => {
                             {product?.description ?? ""}
                         </Markdown>
                     </ListItem>
-                    <Divider variant="inset" />
+                    <Divider variant="fullWidth" />
                     <ListItem className={clsx(
                         classes.listItem,
                         classes.price
@@ -201,7 +208,6 @@ export const ViewProduct: React.FC<IViewProductProps> = (props) => {
                             </Grid>
                         </Paper>
                     </ListItem>
-                    <Divider />
                     <ListItem className={clsx(
                         classes.listItem,
                         classes.price
@@ -232,6 +238,8 @@ export const ViewProduct: React.FC<IViewProductProps> = (props) => {
                             </Grid>
                         </Paper>
                     </ListItem>
+                    <Divider />
+                    <Spacer height={60}></Spacer>
                     <ListItem>
                         <Button
                             disabled={actionsDisabled}
@@ -243,26 +251,32 @@ export const ViewProduct: React.FC<IViewProductProps> = (props) => {
                         >
                             {localizer.get("addToCart")}
                         </Button>
-                        <Button
-                            disabled={actionsDisabled}
-                            className={classes.button}
-                            color="primary"
-                            variant="contained"
-                            onClick={() => id ? history.push(Routes.EDIT_PRODUCT_PAGE.replace(":id", id)) : null}
-                            startIcon={<Edit />}
-                        >
-                            {localizer.get("edit")}
-                        </Button>
-                        <Button
-                            disabled={actionsDisabled}
-                            className={classes.button}
-                            color="secondary"
-                            variant="contained"
-                            onClick={deleteProduct}
-                            startIcon={<Delete />}
-                        >
-                            {localizer.get("delete")}
-                        </Button>
+                        {
+                            authenticated ?
+                                <>
+                                    <Button
+                                        disabled={actionsDisabled}
+                                        className={classes.button}
+                                        color="primary"
+                                        variant="contained"
+                                        onClick={() => id ? history.push(Routes.EDIT_PRODUCT_PAGE.replace(":id", id)) : null}
+                                        startIcon={<Edit />}
+                                    >
+                                        {localizer.get("edit")}
+                                    </Button>
+                                    <Button
+                                        disabled={actionsDisabled}
+                                        className={classes.button}
+                                        color="secondary"
+                                        variant="contained"
+                                        onClick={deleteProduct}
+                                        startIcon={<Delete />}
+                                    >
+                                        {localizer.get("delete")}
+                                    </Button>
+                                </> :
+                                null
+                        }
                     </ListItem>
                 </List>
             </Container>

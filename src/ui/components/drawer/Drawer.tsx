@@ -1,16 +1,18 @@
-import React from 'react';
-import clsx from 'clsx';
-import { createStyles, makeStyles, useTheme, Theme } from '@material-ui/core/styles';
-import { Appbar } from "..";
-import { CssBaseline, IconButton, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText, Tooltip } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined';
-import { HomeOutlined } from '@material-ui/icons';
-import { useHistory, useLocation } from 'react-router-dom';
-import { Routes } from '../../../constants/routes';
-import { useStringLocalizer } from '../../../contexts';
+import React from 'react'
+import clsx from 'clsx'
+import { createStyles, makeStyles, useTheme, Theme } from '@material-ui/core/styles'
+import { Appbar } from ".."
+import { CssBaseline, IconButton, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText, Tooltip } from '@material-ui/core'
+import MenuIcon from '@material-ui/icons/Menu'
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined'
+import { HomeOutlined } from '@material-ui/icons'
+import { useHistory, useLocation } from 'react-router-dom'
+import { Routes } from '../../../constants/routes'
+import { useStringLocalizer } from '../../../contexts'
+import { useSelector } from 'react-redux'
+import { IRootState } from '../../../stores'
 
 const drawerWidth = 240;
 
@@ -80,23 +82,19 @@ const useStyles = makeStyles((theme: Theme) =>
             padding: theme.spacing(3),
         },
     }),
-);
+)
 
 export const AppDrawer: React.FC = (props) => {
-    const classes = useStyles();
-    const stringLocalizer = useStringLocalizer();
-    const { state } = useLocation() as any;
-    const theme = useTheme();
-    const history = useHistory();
-    const [open, setOpen] = React.useState(state?.drawerOpen ?? false);
+    const classes = useStyles()
+    const stringLocalizer = useStringLocalizer()
+    const { state } = useLocation() as { state: { drawerOpen: boolean } }
+    const theme = useTheme()
+    const history = useHistory()
+    const [open, setOpen] = React.useState(state?.drawerOpen ?? false)
+    const auth = useSelector<IRootState>(x => x.authentication.authenticated)
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
+    const handleDrawerOpen = () => setOpen(true)
+    const handleDrawerClose = () => setOpen(false)
 
     return (
         <div className={classes.root}>
@@ -149,16 +147,20 @@ export const AppDrawer: React.FC = (props) => {
                             {stringLocalizer.get("dashboard")}
                         </ListItemText>
                     </ListItem>
-                    <ListItem alignItems="center" button onClick={() => history.push(Routes.ADD_PRODUCT_PAGE, { drawerOpen: open })}>
-                        <ListItemIcon>
-                            <Tooltip title={stringLocalizer.get("addProduct")} arrow placement="right">
-                                <AddBoxOutlinedIcon />
-                            </Tooltip>
-                        </ListItemIcon>
-                        <ListItemText>
-                            {stringLocalizer.get("addProduct")}
-                        </ListItemText>
-                    </ListItem>
+                    {
+                        auth ?
+                            <ListItem alignItems="center" button onClick={() => history.push(Routes.ADD_PRODUCT_PAGE, { drawerOpen: open })}>
+                                <ListItemIcon>
+                                    <Tooltip title={stringLocalizer.get("addProduct")} arrow placement="right">
+                                        <AddBoxOutlinedIcon />
+                                    </Tooltip>
+                                </ListItemIcon>
+                                <ListItemText>
+                                    {stringLocalizer.get("addProduct")}
+                                </ListItemText>
+                            </ListItem>
+                            : null
+                    }
                 </List>
             </Drawer>
             <main className={classes.content}>

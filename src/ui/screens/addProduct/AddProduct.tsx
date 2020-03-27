@@ -88,7 +88,7 @@ export const AddProduct: React.FunctionComponent<IAddProductProps> = (props) => 
             <Container className={classes.container}>
                 <Grid container direction="column" alignItems="center">
                     <h1>
-                        {localizer.get(id ? "addNewProduct" : "editProduct")}
+                        {localizer.get(id ? "editProduct" : "addNewProduct")}
                     </h1>
                     <form className={classes.form}>
                         <TextField

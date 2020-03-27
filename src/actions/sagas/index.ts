@@ -1,4 +1,7 @@
 import { ProductSagaActions } from "./products"
+import { UserSagaActions } from "./users"
 
 export * from "./products"
-export type SagaActions = ProductSagaActions
+export * from "./users"
+
+export type SagaActions = ProductSagaActions | UserSagaActions
