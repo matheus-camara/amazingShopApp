@@ -5,20 +5,18 @@ import { useStringLocalizer } from "../contexts/localization"
 import { useSnackbar } from "notistack"
 import { Notification } from "../domain"
 import { useHistory } from "react-router-dom"
-import { useSelector } from "react-redux"
-import { IRootState } from "../stores"
+import { Routes } from "../constants/routes"
 
 export const Interceptor: React.FC<any> = (props) => {
 
     const setLoading = useLoader()
     const localizer = useStringLocalizer()
-    const token = useSelector<IRootState>(x => x.authentication.token) as string
     const history = useHistory()
     const { enqueueSnackbar } = useSnackbar()
 
     const handleUnauthorize = () => {
         enqueueSnackbar(localizer.get("unAuthorized"), { variant: "error" })
-        history.push("/")
+        history.replace(Routes.LOGIN_PAGE)
     }
 
     const handleNotFound = () => enqueueSnackbar(localizer.get("notFound"), { variant: "warning" })
@@ -29,12 +27,12 @@ export const Interceptor: React.FC<any> = (props) => {
     const handleAccepted = () => enqueueSnackbar(localizer.get("accepted"), { variant: "success" })
 
     const configureRequestInterceptor = () => {
+
         axios.interceptors.request.use(
             (request) => {
+                setLoading(true)
                 request.headers["Accept-Language"] = localizer.Language
                 request.headers["Content-Type"] = "application/json"
-                request.headers["Authorization"] = `Bearer ${token}`
-                setLoading(true)
                 return request
             },
             (error) => {

@@ -137,4 +137,20 @@ export const resources: LocalizedSet = {
         enUS: "Already have a account? log in!",
         ptBR: "Já tem uma conta? faça o login!"
     },
+    filter: {
+        enUS: "Filter",
+        ptBR: "Filtro"
+    },
+    filters: {
+        enUS: "Filters",
+        ptBR: "Filtros"
+    },
+    startsAt: {
+        enUS: "Starts at",
+        ptBR: "De"
+    },
+    upTo: {
+        enUS: "Up to",
+        ptBR: "Até"
+    }
 }

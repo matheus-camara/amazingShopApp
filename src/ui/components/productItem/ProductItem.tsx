@@ -1,10 +1,9 @@
 import React from "react"
 import { makeStyles } from "@material-ui/core/styles"
-import { Card, CardActionArea, CardMedia, CardContent, Typography, CardActions, Button, IconButton } from "@material-ui/core"
+import { Card, CardActionArea, CardMedia, CardContent, Typography, CardActions, IconButton, Button } from "@material-ui/core"
 import { blankImage } from "../../../static/images"
-import { AddShoppingCart } from "@material-ui/icons"
+import { AddShoppingCart, AttachMoneyOutlined } from "@material-ui/icons"
 import { Product } from "../../../domain"
-import { useStringLocalizer } from "../../../contexts/localization"
 import { useHistory } from "react-router-dom"
 import { Routes } from "../../../constants/routes"
 
@@ -27,7 +26,7 @@ export const ProductItem: React.FC<IProductItemProps> = (props) => {
 
     const classes = useStyles(maxWidth)
     const history = useHistory()
-    const localizer = useStringLocalizer()
+    console.log(props)
 
     return (
         <div className={classes.cardWrapper}>
@@ -50,14 +49,21 @@ export const ProductItem: React.FC<IProductItemProps> = (props) => {
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                    <Button size="small" color="primary">
-                        {localizer.get("save")}
-                    </Button>
                     <IconButton
                         onClick={() => null}
                     >
                         <AddShoppingCart />
                     </IconButton>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        startIcon={<AttachMoneyOutlined />}
+                        onClick={() => null}
+                    >
+                        <Typography variant="h6" noWrap={true}>
+                            {props.product.price.toFixed(2)}
+                        </Typography>
+                    </Button>
                 </CardActions>
             </Card>
         </div>

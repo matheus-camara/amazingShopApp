@@ -4,17 +4,17 @@ import { Loader } from "../../ui/components"
 
 const ToggleLoaderContext = React.createContext<((show: boolean) => void) | null>(null)
 
-export const LoaderProvider = ({ children }: { children: any }) => {
+export const LoaderProvider = ({ children, interceptorKey }: { children?: any, interceptorKey?: string }) => {
     const [loading, setLoading] = React.useState(false)
 
     return (
-        <div>
+        <>
             <Loader showLoader={loading} />
             <ToggleLoaderContext.Provider value={setLoading}>
-                <Interceptor />
+                <Interceptor key={interceptorKey} />
             </ToggleLoaderContext.Provider>
-            {children}
-        </div>
+            {children ? children : null}
+        </>
     )
 }
 

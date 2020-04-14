@@ -7,10 +7,10 @@ export interface IAuthenticationState {
 
 const AuthenticationInitialState: IAuthenticationState = {
     token: "",
-    authenticated: false
+    authenticated: true
 }
 
-export const AuthenticationStore = (state = AuthenticationInitialState, action: IAction<null>) => {
+export const AuthenticationStore = (state = AuthenticationInitialState, action: IAction<string>) => {
     switch (action.type) {
         case UserStoreActions.Login:
             return Object.assign({}, state, {
@@ -18,11 +18,13 @@ export const AuthenticationStore = (state = AuthenticationInitialState, action: 
                 authenticated: !!action.payload
             })
         case UserStoreActions.Logout:
+            console.log("faio")
             return Object.assign({}, state, {
                 token: "",
                 authenticated: false
             })
         default:
+            console.log(state)
             return state
     }
 }

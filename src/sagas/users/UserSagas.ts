@@ -31,6 +31,7 @@ function* registerSaga(action: IAction<{ name: string, email: string, password: 
     try {
         yield webService.post(action.payload, "register")
 
+        yield delay(100, true)
         yield put({
             type: UserSagaActions.Login,
             payload: {

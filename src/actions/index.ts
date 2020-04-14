@@ -5,6 +5,7 @@ import { Action } from "redux"
 export interface IAction<T> extends Action<string> {
     pagination?: IPagination
     payload?: T
+    filter?: any
 }
 
 export interface IPagination {

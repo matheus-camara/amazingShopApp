@@ -68,8 +68,7 @@ export const Register: React.FC = () => {
                         <List>
                             <ListItem alignItems="flex-start">
                                 <IconButton onClick={() => history.goBack()}>
-                                    <ArrowBackOutlined>
-                                    </ArrowBackOutlined>
+                                    <ArrowBackOutlined />
                                 </IconButton>
                             </ListItem>
                             <ListItem alignItems="center" >

@@ -3,7 +3,7 @@ import "./loader.css"
 
 export const Loader: React.FC<{ showLoader: boolean }> = (props) => {
 
-    const getClasses = () => `loading ${props.showLoader ? "show-loader" : "hide-loader"}`
+    const getClasses = () => `${props.showLoader ? "show-loader" : "hide-loader"}`
 
     return (
         <div id="loading" className={getClasses()}>
