@@ -1,4 +1,5 @@
 import { Dashboard, AddProduct, ViewProduct, Login, Register } from "../ui/screens";
+import { Cart } from "../ui/screens/cart/Cart";
 
 export enum Routes {
     LOGIN_PAGE = "/login",
@@ -7,6 +8,7 @@ export enum Routes {
     ADD_PRODUCT_PAGE = "/product/add",
     VIEW_PRODUCT_PAGE = "/product/:id",
     EDIT_PRODUCT_PAGE = "/product/edit/:id",
+    CART_PAGE = "/cart",
 }
 
 export interface IRoute {
@@ -54,4 +56,9 @@ export const app_routes: IRoute[] = [
         component: Register,
         exact: true
     },
+    {
+        path: Routes.CART_PAGE,
+        component: Cart,
+        withDrawer: true,
+    }
 ]

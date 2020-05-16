@@ -7,12 +7,13 @@ import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined'
-import { HomeOutlined } from '@material-ui/icons'
+import { HomeOutlined, ShoppingCartOutlined } from '@material-ui/icons'
 import { useHistory, useLocation } from 'react-router-dom'
 import { Routes } from '../../../constants/routes'
 import { useStringLocalizer } from '../../../contexts'
 import { useSelector } from 'react-redux'
 import { IRootState } from '../../../stores'
+import { app_menus } from '../../../constants/menu'
 
 const drawerWidth = 240;
 
@@ -137,6 +138,21 @@ export const AppDrawer: React.FC = (props) => {
                 </div>
                 <Divider />
                 <List>
+                    {/* */}
+                    {
+                        app_menus.map(item =>
+                            <ListItem alignItems="center" button onClick={() => history.push(item.pushTo, { drawerOpen: open })}>
+                                <ListItemIcon >
+                                    <Tooltip title={stringLocalizer.get(item.titleKey)} arrow placement="right">
+                                        <item.icon />
+                                    </Tooltip>
+                                </ListItemIcon>
+                                <ListItemText>
+                                    {stringLocalizer.get(item.titleKey)}
+                                </ListItemText>
+                            </ListItem>)
+                    }
+                    {/*  */}
                     <ListItem alignItems="center" button onClick={() => history.push(Routes.DASHBOARD_PAGE, { drawerOpen: open })}>
                         <ListItemIcon >
                             <Tooltip title={stringLocalizer.get("dashboard")} arrow placement="right">
@@ -161,6 +177,16 @@ export const AppDrawer: React.FC = (props) => {
                             </ListItem>
                             : null
                     }
+                    <ListItem alignItems="center" button onClick={() => history.push(Routes.CART_PAGE, { drawerOpen: open })}>
+                        <ListItemIcon >
+                            <Tooltip title={stringLocalizer.get("cart")} arrow placement="right">
+                                <ShoppingCartOutlined />
+                            </Tooltip>
+                        </ListItemIcon>
+                        <ListItemText>
+                            {stringLocalizer.get("cart")}
+                        </ListItemText>
+                    </ListItem>
                 </List>
             </Drawer>
             <main className={classes.content}>

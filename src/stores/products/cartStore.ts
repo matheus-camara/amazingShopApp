@@ -35,12 +35,38 @@ export const CartStore = (state = CartStoreState, action: IAction<IProductCartIt
 
             return Object.assign({}, state, {
                 products,
-                total: products
-                    .map(item => (item?.product?.price ?? 0) * (item?.quantity ?? 0))
-                    .reduce((previous, current) => previous + current, 0)
+                total: getTotal(products)
+            })
+
+        case ProductStoreActions.RemoveFromCart:
+            const newList = [...state.products].filter(x => x.product.id !== action?.payload?.product?.id)
+            return Object.assign({}, state, {
+                products: newList,
+                total: getTotal(newList)
+
+            })
+
+        case ProductStoreActions.RemoveItemFromCart:
+            let items = [...state.products]
+            const found = items.findIndex(x => x.product.id === action.payload?.product.id)
+
+            if (found >= 0) {
+                if (items[found].quantity > 1)
+                    items[found].quantity -= 1
+                else
+                    items = items.filter(x => x.product.id !== action?.payload?.product?.id)
+            }
+
+            return Object.assign({}, state, {
+                products: items,
+                total: getTotal(items)
             })
 
         default:
             return state
     }
 }
+
+const getTotal = (products: IProductCartItem[]) => products
+    .map(item => (item?.product?.price ?? 0) * (item?.quantity ?? 0))
+    .reduce((previous, current) => previous + current, 0)

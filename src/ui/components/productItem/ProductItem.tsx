@@ -6,6 +6,8 @@ import { AddShoppingCart, AttachMoneyOutlined } from "@material-ui/icons"
 import { Product } from "../../../domain"
 import { useHistory } from "react-router-dom"
 import { Routes } from "../../../constants/routes"
+import { useDispatch } from "react-redux"
+import { ProductStoreActions } from "../../../actions"
 
 const useStyles = (width: number) => makeStyles({
     card: {
@@ -23,15 +25,22 @@ interface IProductItemProps {
 
 export const ProductItem: React.FC<IProductItemProps> = (props) => {
     const [height, maxWidth] = [160, 260]
-
     const classes = useStyles(maxWidth)
     const history = useHistory()
-    console.log(props)
+    const dispatch = useDispatch()
+
+    const addToCart = () => dispatch({
+        type: ProductStoreActions.AddToCart,
+        payload: {
+            product: props.product,
+            quantity: 1
+        }
+    })
 
     return (
         <div className={classes.cardWrapper}>
-            <Card className={classes.card} onClick={() => history.push(Routes.VIEW_PRODUCT_PAGE.replace(":id", props.product.id.toString()))}>
-                <CardActionArea>
+            <Card className={classes.card} >
+                <CardActionArea onClick={() => history.push(Routes.VIEW_PRODUCT_PAGE.replace(":id", props.product.id.toString()))}>
                     <CardMedia
                         component="img"
                         alt="Image of product"
@@ -50,7 +59,7 @@ export const ProductItem: React.FC<IProductItemProps> = (props) => {
                 </CardActionArea>
                 <CardActions>
                     <IconButton
-                        onClick={() => null}
+                        onClick={addToCart}
                     >
                         <AddShoppingCart />
                     </IconButton>
@@ -58,7 +67,6 @@ export const ProductItem: React.FC<IProductItemProps> = (props) => {
                         variant="contained"
                         color="primary"
                         startIcon={<AttachMoneyOutlined />}
-                        onClick={() => null}
                     >
                         <Typography variant="h6" noWrap={true}>
                             {props.product.price.toFixed(2)}
